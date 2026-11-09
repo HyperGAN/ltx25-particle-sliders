@@ -1,0 +1,65 @@
+{
+  "source_repository": "https://github.com/HyperGAN/particle-sliders",
+  "source_commit": "2b4b88e3f4ba62ccdfaecebff288a78cd6ba847b",
+  "whole_files": [
+    "LICENSE",
+    "backends/ltx25-modern/LICENSE",
+    "backends/ltx25-modern/README.md",
+    "backends/ltx25-modern/admission.py",
+    "backends/ltx25-modern/build_backend.py",
+    "backends/ltx25-modern/core012-runtime.json",
+    "backends/ltx25-modern/pyproject.toml",
+    "conceptmod/__init__.py",
+    "conceptmod/textsliders/__init__.py",
+    "conceptmod/textsliders/ltx25_backend.py",
+    "conceptmod/textsliders/ltx25_gan.py",
+    "conceptmod/textsliders/ltx25_uni.py",
+    "conceptmod/textsliders/train_lora_ltx25.py",
+    "conceptmod/textsliders/diag_ltx25_uni.py",
+    "conceptmod/textsliders/data/config-ltx25.yaml",
+    "conceptmod/textsliders/data/config-ltx25-chiaroscuro.yaml",
+    "conceptmod/textsliders/data/prompts-ltx25-smile.yaml",
+    "conceptmod/textsliders/data/prompts-ltx25-chiaroscuro.yaml",
+    "docs/ltx25-slider.md",
+    "docs/ltx25-modern-gan.md",
+    "tests/test_ltx25_slider.py",
+    "tests/test_ltx25_modern_gan.py",
+    "tests/test_ltx25_modern_packaging.py"
+  ],
+  "bounded_fragment": {
+    "source": "conceptmod/textsliders/slider_targets.py",
+    "destination": "conceptmod/textsliders/slider_targets.py",
+    "functions": [
+      "_is_lora_delta_layer",
+      "apply_continuous_lora_scale"
+    ]
+  },
+  "generated_files": [
+    "README.md",
+    ".gitignore",
+    "EXTRACTION.md",
+    "provenance/source-map.json",
+    "provenance/ALLOWLIST.json",
+    "tests/test_ltx25_extraction.py",
+    "backends/ltx25-modern/core-a794-runtime.json",
+    "MODERN-CORE-MIGRATION.md",
+    "GPU-READINESS.md",
+    "tools/ltx25_native_preflight.py",
+    "tests/test_ltx25_native_preflight.py",
+    "tools/ltx25_temporal_probe.py",
+    "tests/test_ltx25_temporal_probe.py",
+    "ORDERED-TRAINING-PROPOSAL.md",
+    "tools/ltx25_fixture_packing.py",
+    "tests/test_ltx25_fixture_packing.py",
+    "PUBLICATION.md"
+  ],
+  "declared_transformations": [
+    "Extract only the two exact named scaling functions from mixed slider_targets.py.",
+    "Relocate only slider_targets.py native-source hash in ltx25_gan.py to the bounded compatibility excerpt.",
+    "Omit test_music3_defaults_unchanged from historical test file; it asserts unrelated source ownership.",
+    "No model/objective/lifecycle/core pin/namespace/historical backend computation changes.",
+    "Append extraction-only installed checks to the modern test file; existing31 cases remain byte-identical.",
+    "Cleared active modern-only core migration to a794e3b, exact recursive runtime lock and source identities; historical files/locks remain retained.",
+    "Public source snapshot: update generated publication/layout documentation and explicitly allowlist PUBLICATION.md; no runtime, model, source closure, objective or admission behavior changes."
+  ]
+}
