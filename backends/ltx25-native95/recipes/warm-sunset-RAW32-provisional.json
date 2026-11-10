@@ -1,0 +1,136 @@
+{
+  "schema": "LTX25-native-warm-sunset-RAW32-provisional-tied-recipes-v1",
+  "concept": "Warm sunset illumination in finished native video",
+  "comparison_complete": true,
+  "exact_tie": true,
+  "selected_unique_rate": null,
+  "rate_overrides": null,
+  "provisional_rate_overrides": null,
+  "tied_provisional_rate_overrides": [
+    {
+      "lr": 0.012,
+      "d_lr_mult": 1.5,
+      "prior_lr_mult": 2.5,
+      "ema_decay": null
+    },
+    {
+      "lr": 0.001,
+      "d_lr_mult": 18,
+      "prior_lr_mult": 2.5,
+      "ema_decay": null
+    }
+  ],
+  "fixed_actual_D": 0.018000000000000002,
+  "particle_bank": false,
+  "actual_bank": null,
+  "unused_nominal_prior_rates": [
+    0.03,
+    0.0025
+  ],
+  "weight_selection": "raw",
+  "ema_decay": null,
+  "comparison": {
+    "completed_updates_per_arm": 32,
+    "saved_horizon": 128,
+    "matched_cases": 1,
+    "logical_frames_per_clip": 17,
+    "frame_weights": "1/17",
+    "case_weights": [
+      1.0
+    ],
+    "score_definition": "single intended warm-sunset illumination level0..4 divided by4, all17 frames averaged, matched ON minus shared OFF",
+    "shared_OFF_mean": 0.4117647058823529,
+    "G012_ON_mean": 0.5,
+    "G001_ON_mean": 0.5,
+    "G012_mean_gain": 0.08823529411764708,
+    "G001_mean_gain": 0.08823529411764708,
+    "instrument": "frozen provisional Qwen3-VL-8B frame warm-sunset instrument v4",
+    "instrument_Source_SHA256": "70828ba1102990f42e0733ab81c2e5dd0fd2d483475a82c9c7e089ccf174290a",
+    "runtime_Source_SHA256": "b15b2159ed325bb52a58d20a40e6cd44f2e16960540390b4711583af3fa15292",
+    "effective_sampling": {
+      "do_sample": true,
+      "temperature": 0.7,
+      "top_k": 20,
+      "top_p": 0.8
+    },
+    "per_unique_input_seed": 0,
+    "measurement_kind": "frozen_model_instrument_not_human",
+    "trait_qualified": false,
+    "formal_semantic_validation": false
+  },
+  "profile": {
+    "model_id": "Lightricks/LTX-2.5-Diffusers",
+    "model_revision": "4791a1100e0cf97f7ed5c55c12dd71dce13f9dd3",
+    "source_profile": "ltx25-native-gemma4-te4-video-connectors-r4-a4-convnd-first-row-recovery-v4",
+    "captured_product_commit": "edcf9c3b121191f95e2b0153bf5e7797afb6ca1a",
+    "initialization_policy": "ltx25-fresh-owned-QR-host-kaiming-zero-up-v1",
+    "total_horizon": 128,
+    "batch": 2,
+    "rank": 4,
+    "alpha": 4,
+    "seed": 7,
+    "strength": 1.0,
+    "geometry": {
+      "width": 768,
+      "height": 512,
+      "frames": 17,
+      "fps": 24,
+      "text_tokens": 128,
+      "audio_sample_rate": 48000,
+      "audio_channels": 2
+    },
+    "native_joint_steps": 8,
+    "native_CFG": 1,
+    "native_STG": 0,
+    "modality_scale": 1
+  },
+  "dependencies": {
+    "core_version": "0.14.1+convnd.1",
+    "PG_version": "0.9.5+convnd.1",
+    "PG_Source_commit": "37f1b23281c551a196f9e508be691a6cf724c858",
+    "PG_profile": "pg095-convnd-per-offset-v1",
+    "exact_public_artifact_URLs": null,
+    "exact_public_artifact_availability_verified": false,
+    "captured_core_Source_commit": "a3767b8f1b70be7427811c2ca96c14824db46d3c",
+    "prepared_core_metadata_derivative_commit": "a43208105be80234b2d331ef80b5583cffefc4d0",
+    "profile_Source_publication_targets": {
+      "PG": "https://github.com/HyperGAN/ParticleGAN/tree/37f1b23281c551a196f9e508be691a6cf724c858",
+      "core": "https://github.com/HyperGAN/particle-sliders/tree/a43208105be80234b2d331ef80b5583cffefc4d0/packages/particle-sliders-core"
+    },
+    "profile_Source_publication_confirmed": false
+  },
+  "scope": {
+    "whole_joint_AV_catastrophic_status": "unmeasured",
+    "current_eligibility": null,
+    "actual_FULL32_guard": null,
+    "selected_for_use": false,
+    "automatic_promotion": false,
+    "product_default_changed": false,
+    "ordinary_Generate": false,
+    "released_weights": 0,
+    "LR_only_causal_isolation_claimed": false,
+    "bitwise_execution_equivalence_claimed": false,
+    "existing_checkpoints_teachers_OFF_outputs_and_first_observations_reused": true,
+    "extra_confirmation_or_rerating_required": false,
+    "execution_histories": "G012 retained completed joint latents then original decoder-only tail; G001 public latent return then original decoder-only tail. Both use original full native arithmetic with explicit storage/checkpoint execution profiles."
+  },
+  "software": {
+    "native_owner_Source_commit": "e43f7658678a3417edcff1701dfb42b588d4c0ce",
+    "distribution": "particle-sliders-ltx25-native95",
+    "version": "0.1.0a2+convnd.1.owner1",
+    "local_offline_wheel_build_and_owned_install_complete": true,
+    "new_software_tests": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "actual_installed_console_owner_refusal_checked": true,
+    "original_factory_Python_byteexact": 12,
+    "original_factory_JSON_byteexact": 10,
+    "software_terminal_SHA256": "b5102763f2601326ee7e5cce8f1e4277d82fb4d5124ad72ded0ae0277b4010bd",
+    "native_or_model_execution_in_this_software_check": false,
+    "public_dependency_resolution_checked": false,
+    "fullnative_publicwheel_qualification": false
+  }
+}

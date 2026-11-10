@@ -1,0 +1,28 @@
+{
+  "schema": "LTX25-captured-factory-byte-identity-v1",
+  "captured_commit": "edcf9c3b121191f95e2b0153bf5e7797afb6ca1a",
+  "files": {
+    "cli.py": "ded525faab979ea589ba3ca3ff6935cc2c4ddd9e7b280bd3f80f2db508e9a9ff",
+    "current_core.json": "6a01efce848508139d615d8e3296d91fad8fcada7aaa462bd2e255d317a8e6aa",
+    "cache.py": "92df6f382a5402c42af47c01d3adcb27d4a3ad1653024a8df83a62270d1679ed",
+    "initialization.py": "1514ee6ee59db6e3b3153f16feed82ad9d7ed6f17fa2e7de9ed975bc70288a68",
+    "__init__.py": "38180b38789cd08bcc666cf2767c6db5c382b38e2386e30cbb3781459d9b5793",
+    "native.py": "b12c0cdd75ef0db5f6f7a6d212edce0ddda9f9ee8fd70893a04ef8325b570022",
+    "critic.py": "dc4cefdc7536e83823190b5d6d52f08ba708c02fa26d7857bda1cc2158b9d246",
+    "render.py": "46059a4c457e0f512f0b00eaf7a306323270fd9899856fdf7b7149b6981d3714",
+    "native-sources.json": "e4f67a1842e3fd7894dd8fa2bf3f6477ef98fdb51db9b4e7ffcbb3f5f6268239",
+    "lifecycle.py": "9ef20d28c696700ebdc54254f38042d7ec68cef017998e826cf466d2494567f7",
+    "first_rows.py": "6374b63c813083fcf95648d75f36f2b7f32c5de01616ec6f19f536503d5d1103",
+    "component_loader.py": "e41c3bbdaa83ec1da3818ede40e99ae1e12b80926663a3c410fb6e762c20aef5",
+    "contracts.py": "4e53ec9ea567b1f8d27eb1dd0c3ca4f654da1ca1ba09acefd853799ef1dc2f98",
+    "adapter.py": "f25708c7c7ab2dddaf490c8eb70608e46e8ccb72d605908c8ee78bcbdd5b1029",
+    "model-configs/model_index.json": "37202d586ae6a3527b9862fa299d33550676367bce6116be0221991b1f327a0c",
+    "model-configs/audio_vae/config.json": "9994583546bf9bc08d69dafb31f24dbaacecbb7920e5cb7189c818ef188b1372",
+    "model-configs/vae/config.json": "89c617661a3508476b43860a618c83121a9c6d0f6f110b575830586a871cf7c2",
+    "model-configs/text_encoder/config.json": "39c1f22c524988e91b2fee08226279a664e76a9e844a3795929aed0366bf7302",
+    "model-configs/scheduler/scheduler_config.json": "2c2d045e04ab0aabd32b5bc4219fe36fdf457e6d5453e02686058c57a710b1a3",
+    "model-configs/connectors/config.json": "7f4aa822c3352db1d07850da713d1943157601c8769b555cb9243f1c6dfb4e61",
+    "model-configs/transformer/config.json": "93a96ad2f29e403ba5fd04689a99460d156b43db164e139fcdf20331a7b1639d",
+    "model-configs/vocoder/config.json": "e9591852ba98f22ad8db9b9e2163dead5cafe1850dcdc13dcac8070ac5f31a8c"
+  }
+}

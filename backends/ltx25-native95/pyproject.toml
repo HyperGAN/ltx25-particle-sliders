@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=84.2.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "particle-sliders-ltx25-native95"
+version = "0.1.0a2+convnd.1.owner1"
+description = "Owner-injected native LTX2.5 execution over the exact captured ConvNd factory"
+readme = "README.md"
+requires-python = ">=3.11,<3.15"
+dependencies = [
+ "particle-sliders-core==0.14.1+convnd.1",
+ "particlegan==0.9.5+convnd.1", "torch==2.9.1",
+ "diffusers @ git+https://github.com/huggingface/diffusers.git@35087a644038eb531f48581708d4763044cb4852",
+ "transformers==5.15.0", "accelerate>=1.15,<2", "safetensors>=0.8,<1",
+ "sentencepiece>=0.2,<1", "protobuf>=7,<8", "pillow>=13,<14", "av>=16,<18"
+]
+[project.optional-dependencies]
+test = ["pytest>=8,<10"]
+[project.scripts]
+ltx25-native95 = "ps_ltx25_execution.cli:main"
+[project.entry-points."particle_sliders.response_backends"]
+ltx25_native_video95 = "ps_ltx25_native95.lifecycle:BACKEND"
+[project.entry-points."particle_sliders.inference_backends"]
+ltx25_native_video95 = "ps_ltx25_native95.lifecycle:NATIVE_BACKEND"
+[tool.setuptools.packages.find]
+where = ["src"]
+[tool.setuptools.package-data]
+ps_ltx25_execution = ["*.json"]
+ps_ltx25_native95 = ["*.json", "model-configs/*.json", "model-configs/*/*.json"]
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

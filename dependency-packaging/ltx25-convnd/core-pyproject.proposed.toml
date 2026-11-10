@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=84.2.1"]
+build-backend = "_build_backend"
+backend-path = ["."]
+
+[project]
+name = "particle-sliders-core"
+version = "0.14.1+convnd.1"
+description = "Model-independent ParticleGAN slider lifecycle and shared tuning contracts"
+readme = "SHARED-CORE-BOUNDARY.md"
+requires-python = ">=3.11"
+license = {file = "LICENSE"}
+dependencies = [
+    "torch>=2.6,<3",
+    "particlegan==0.9.5+convnd.1",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8", "setuptools>=84.2.1", "safetensors>=0.4,<1", "pillow>=13.0.0"]
+serialization = ["safetensors>=0.4,<1"]
+hndl = ["hndl==0.8.2; python_version >= '3.11' and python_version < '3.15'"]
+
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["particle_sliders", "particle_sliders.execution", "particle_sliders.parameter_search", "concept_slider_core"]
+
+[tool.setuptools]
+include-package-data = false
+
+[tool.setuptools.package-data]
+particle_sliders = ["LICENSE", "provenance.json", "locked_provenance.json", "bispf_provenance.json", "pg09_release_sources.json", "pg09_continuous_profile.json", "legacy_stamp.json", "pg093_release.json", "pg094_release.json", "pg095_release.json", "pg095_convnd.json", "pg094_continuous.json", "provenance_sources/*.txt"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[project.scripts]
+particle-slider-search = "particle_sliders.parameter_search.__main__:main"
+particle-slider = "particle_sliders.session_cli:main"
