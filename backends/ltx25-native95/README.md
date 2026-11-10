@@ -16,9 +16,14 @@ configuration flag alone does not admit execution.
 The local offline wheel build, owned-target installation, four new software
 checks and actual installed console owner-refusal check **passed** on2026-11-10.
 The installed wheel preserved all12 factory Python and10 factory JSON bodies.
-These checks imported no framework, loaded no model and used no GPU. They do
-not establish public dependency availability or full native execution through
-this installed wheel. The captured native previews and the completed
+These checks imported no framework, loaded no model and used no GPU. The exact
+PG/core compatibility Sources are now published. A separate offline packaging
+sequence built their sdists and wheels, installed both into an owned target and
+verified exact Source bytes, the complete PG manifest, core build boundary,
+dependency metadata and entrypoint declarations. That sequence imported no
+runtime/framework, ran no tests and used no GPU. It retained the four owner
+software observations without replay. Public binary wheel/upload availability
+and full native execution through this public package remain unverified. The captured native previews and the completed
 [matched RAW32 exact tie](LEARNING-RATES.md) have their own provenance. No weights
 or ordinary Generate feature are released here.
 
@@ -42,12 +47,15 @@ The required profiles are core `0.14.1+convnd.1` at
 checked API baseline `a3767b8f1b70be7427811c2ca96c14824db46d3c` (prepared
 metadata-only derivative `a43208105be80234b2d331ef80b5583cffefc4d0`) and ParticleGAN
 `0.9.5+convnd.1` at `37f1b23281c551a196f9e508be691a6cf724c858`,
-profile `pg095-convnd-per-offset-v1`. They are explicitly separate, unreleased
-profiles. Stock core/PG or a newer release is not a fallback. The exact [PG Source commit](https://github.com/HyperGAN/ParticleGAN/tree/37f1b23281c551a196f9e508be691a6cf724c858) is publicly available. Core metadata Source publication and PG/core wheels remain pending. The
-[separate dependency packaging proposal](../../dependency-packaging/ltx25-convnd/README.md)
-pins the exact PG local version in core metadata while retaining all checked
-Python and manifest bytes. Do not advertise an install command until those
-actual artifacts are available and their packaging has been verified.
+profile `pg095-convnd-per-offset-v1`. These are separate compatibility Source
+profiles: [PG37](https://github.com/HyperGAN/ParticleGAN/tree/37f1b23281c551a196f9e508be691a6cf724c858)
+and [corea432](https://github.com/HyperGAN/particle-sliders/tree/a43208105be80234b2d331ef80b5583cffefc4d0/packages/particle-sliders-core)
+are publicly available. Current PG/core release defaults are unchanged. Stock
+core/PG or a newer release is not a fallback. The core metadata derivative pins
+the exact PG local version while retaining all checked Python and manifest
+bytes. The [dependency packaging record](../../dependency-packaging/ltx25-convnd/README.md)
+distinguishes published Source and verified local packaging from public binary
+artifacts and native execution.
 
 The runtime requires Torch `2.9.1+cu128`, the declared Diffusers source commit
 and Transformers `5.15.0`; the factory verifies exact operative source hashes,
@@ -61,6 +69,35 @@ Supply the exact `native-model-lock.json` SHA and all original files listed by
 that lock. The original factory validates whole files and captured configs;
 there is no download or replacement-model path. Decoder-only execution consumes
 only the three original decoder components under that same snapshot authority.
+
+## Install the frozen public Sources
+
+Use an environment you own that **already contains the exact native runtime**
+described above, including its build toolchain. The successful packaging check
+used Python3.12.15, pip26.2.2 and setuptools84.2.1. Set `LTX_PYTHON` to that owned
+interpreter; do not point it at a captured or shared environment. These explicit
+VCS installs obtain the immutable public Sources and disable dependency
+resolution and build isolation. They do not install Torch, Diffusers,
+Transformers, model assets or an execution owner.
+
+```bash
+LTX_PYTHON=/path/to/your-owned-exact-runtime/bin/python
+"$LTX_PYTHON" -m pip install --no-deps --no-index --no-build-isolation --no-cache-dir --no-compile \
+  'particlegan @ git+https://github.com/HyperGAN/ParticleGAN.git@37f1b23281c551a196f9e508be691a6cf724c858'
+"$LTX_PYTHON" -m pip install --no-deps --no-index --no-build-isolation --no-cache-dir --no-compile \
+  'particle-sliders-core @ git+https://github.com/HyperGAN/particle-sliders.git@a43208105be80234b2d331ef80b5583cffefc4d0#subdirectory=packages/particle-sliders-core'
+"$LTX_PYTHON" -m pip install --no-deps --no-index --no-build-isolation --no-cache-dir --no-compile \
+  'particle-sliders-ltx25-native95 @ git+https://github.com/HyperGAN/ltx25-particle-sliders.git@ac43098a078d45f2becfaffdb3cb90df76f84598#subdirectory=backends/ltx25-native95'
+```
+
+The native pin deliberately names the published `ac43098a` Source revision.
+This documentation child keeps all its code, tests, pyproject and rate JSON
+identical; it changes documentation only. Local PG/core packaging validated
+owned copies of their exact Sources; no public binary wheel upload or complete
+native public-package run is claimed. The four installed native-owner software
+checks are retained from the identical code. **Installing these packages does
+not admit heavy execution:** the runner must still supply the actual
+`OwnedAdmission` below. The bare native console retains its ownerless refusal.
 
 ## An owner supplied by your runner
 
