@@ -1,0 +1,11 @@
+--- packages/particle-sliders-core/pyproject.toml
++++ packages/particle-sliders-core/pyproject.toml
+@@ -12,7 +12,7 @@
+ license = {file = "LICENSE"}
+ dependencies = [
+     "torch>=2.6,<3",
+-    "particlegan==0.9.5",
++    "particlegan==0.9.5+convnd.1",
+ ]
+ 
+ [project.optional-dependencies]

@@ -1,0 +1,18 @@
+{
+  "schema": "H3-private-saved-tensor-composition-pinned-Torch-Source-v1",
+  "torch_version": "2.9.1+cu128",
+  "files": {
+    "autograd/graph.py": {
+      "bytes": 31023,
+      "sha256": "d3932ba138b5a274a359eb94dcd399e18ecd310144390382f4b665b0f3b642df"
+    },
+    "utils/checkpoint.py": {
+      "bytes": 68879,
+      "sha256": "431b229da53972d79bed7e5dbfb6ace2922fff30192ea103208f484e59490f23"
+    },
+    "_C/_autograd.pyi": {
+      "bytes": 4839,
+      "sha256": "22d6ebfe80991b9a50b6e408d868dcb0598b37a27acd3b7f13249dec0e1976a1"
+    }
+  }
+}

@@ -1,3 +1,19 @@
+# Native LTX owner interface and learning-rate results
+
+The separate [native owner API](backends/ltx25-native95/README.md) provides the
+full original LTX2.5 route with explicit runner ownership and exact captured RAW
+factory bytes. Its offline wheel/owned install/four software checks/installed
+console refusal passed. The completed [RAW32 warm-sunset comparison](backends/ltx25-native95/LEARNING-RATES.md)
+tied at G0.012 and G0.001; portable values preserve both, with no automatic
+default or catastrophic eligibility claim. The exact PG/core compatibility
+Sources are published, and their offline sdist/wheel/owned-install Source and
+metadata checks passed. See [frozen Source installation](backends/ltx25-native95/README.md#install-the-frozen-public-sources).
+Public binary wheel/upload availability and full native execution through the
+public package remain unverified.
+The retained historical UNI/dummy documentation below describes its own scope.
+
+The original README follows unchanged.
+
 # LTX-2.5 particle sliders — experimental public source
 
 This model-specific repository extracts the public LTX-2.5 implementation from

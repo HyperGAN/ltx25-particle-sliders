@@ -1,0 +1,20 @@
+{
+  "distribution": "particle-sliders-core",
+  "version": "0.14.1+convnd.1",
+  "repository": "https://github.com/HyperGAN/particle-sliders",
+  "commit": "a3767b8f1b70be7427811c2ca96c14824db46d3c",
+  "reviewed_source_head": "a3767b8f1b70be7427811c2ca96c14824db46d3c",
+  "particlegan": "0.9.5+convnd.1",
+  "source_profile": "ltx25-native-gemma4-te4-video-connectors-r4-a4-convnd-v2",
+  "checked_api_files": {
+    "initialization.py": "871eebda526a9f7dc80749609892eedc14ec6c81768b749d1e69e265cdc2eadc",
+    "pg09.py": "e7d78cc278fa9bc4f3911001672a29b86b1d5ebc48e52f1314fba29f73c55ad9",
+    "pg095.py": "954b61a0b1937d5ad35a40be38e7e20bd5b33f7926346880c9c17506eb3db5f9",
+    "response.py": "c75825d6e09126d8dd42a87f8d01c2834a9a9e6e2f1108a0cf064ae816555757",
+    "lifecycle.py": "058538569f47b6f333d0fad4c417fb99748f6585237875f1a825a8afe13047bb",
+    "inference.py": "2ecb2a791089f93af12deb447b26d9f81a2600e1b8d816eff89102207affdc88",
+    "pg095_convnd.json": "0542a3d40ed8d7eaae0c73bdcab52672920b6194b0a5d4cc2df95a89663ec9b2"
+  },
+  "pg_source_profile": "pg095-convnd-per-offset-v1",
+  "upstream_release": false
+}
