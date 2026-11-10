@@ -97,7 +97,12 @@
       "PG": "https://github.com/HyperGAN/ParticleGAN/tree/37f1b23281c551a196f9e508be691a6cf724c858",
       "core": "https://github.com/HyperGAN/particle-sliders/tree/a43208105be80234b2d331ef80b5583cffefc4d0/packages/particle-sliders-core"
     },
-    "profile_Source_publication_confirmed": false
+    "profile_Source_publication_confirmed": false,
+    "PG_Source_publicly_available": true,
+    "PG_Source_publication_receipt_SHA256": "8222fcecb3c86cda75082de79d7b4069030516168a1f37f4af342503d6846384",
+    "core_metadata_Source_publicly_available": false,
+    "PG_wheel_or_PyPI_available": null,
+    "core_wheel_or_PyPI_available": null
   },
   "scope": {
     "whole_joint_AV_catastrophic_status": "unmeasured",

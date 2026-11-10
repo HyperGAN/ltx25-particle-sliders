@@ -43,8 +43,7 @@ checked API baseline `a3767b8f1b70be7427811c2ca96c14824db46d3c` (prepared
 metadata-only derivative `a43208105be80234b2d331ef80b5583cffefc4d0`) and ParticleGAN
 `0.9.5+convnd.1` at `37f1b23281c551a196f9e508be691a6cf724c858`,
 profile `pg095-convnd-per-offset-v1`. They are explicitly separate, unreleased
-profiles. Stock core/PG or a newer release is not a fallback. Exact public
-artifact availability has not been established by this proposal. The
+profiles. Stock core/PG or a newer release is not a fallback. The exact [PG Source commit](https://github.com/HyperGAN/ParticleGAN/tree/37f1b23281c551a196f9e508be691a6cf724c858) is publicly available. Core metadata Source publication and PG/core wheels remain pending. The
 [separate dependency packaging proposal](../../dependency-packaging/ltx25-convnd/README.md)
 pins the exact PG local version in core metadata while retaining all checked
 Python and manifest bytes. Do not advertise an install command until those
