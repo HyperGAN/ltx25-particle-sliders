@@ -1,5 +1,11 @@
 # Native LTX owner interface and learning-rate results
 
+**Memory (calculated):** native BF16 batch2 default video training: **2 GPUs, plan48/80 GiB VRAM /56 GiB RAM**; sampling: **48/48 GiB**. Larger videos have no fixed maximum. See [MEMORY.md](MEMORY.md) for the complete budgets and assumptions.
+
+
+
+
+
 The separate [native owner API](backends/ltx25-native95/README.md) provides the
 full original LTX2.5 route with explicit runner ownership and exact captured RAW
 factory bytes. Its offline wheel/owned install/four software checks/installed
