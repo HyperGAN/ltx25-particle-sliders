@@ -1,0 +1,178 @@
+{
+  "model_id": "Lightricks/LTX-2.5-Diffusers",
+  "revision": "4791a1100e0cf97f7ed5c55c12dd71dce13f9dd3",
+  "frozen_component_bytes": {
+    "DiT": 37975718400,
+    "Gemma4": 23919460448,
+    "connectors": 6344455168,
+    "VAE_serialized_upper": 1452233194,
+    "audioVAE_serialized_upper": 106507972,
+    "vocoder_serialized_upper": 258305056
+  },
+  "text_device_resident_bytes": 32080961838,
+  "adapter_parameter_upper": 1818624,
+  "critic_parameters": 30113,
+  "trainable_parameter_upper": 1848737,
+  "geometry": {
+    "height": 512,
+    "width": 768,
+    "frames": 17,
+    "text_tokens": 128,
+    "video_latents": [
+      1,
+      128,
+      3,
+      16,
+      24
+    ]
+  },
+  "adapter_bound_explanation": "last4 Gemma4 q/k/v/o (K counted conservatively even where K=V), 8 video connector blocks q/k/v/out; no audio adapter",
+  "cache_bound_rows": 128,
+  "schema": "calculated-memory-inputs-v1",
+  "repository": "ltx25-particle-sliders",
+  "calculated_on": "2026-11-14",
+  "unit": "GiB=2^30 bytes",
+  "measured": false,
+  "profiles": [
+    {
+      "operation": "Native training, split placement",
+      "gpu_count": 2,
+      "vram_gib_per_gpu": [
+        48,
+        80
+      ],
+      "host_ram_gib": 56,
+      "limits": "B2;512\u00d7768;17frames; text128; BF16; no checkpointing",
+      "ledger": {
+        "frozen_per_gpu_gib": [
+          29.877723975107074,
+          35.3676438331604
+        ],
+        "trainable_update_text_gpu_gib": 0.13774164021015167,
+        "text_activation_gib": 5,
+        "DiT_retained_activation_gib": 28,
+        "workspace_per_gpu_gib": 8
+      },
+      "calculated_vram_subtotal_gib": [
+        43.015465615317225,
+        71.3676438331604
+      ],
+      "host_ledger_gib": {
+        "largest_CPU_component": 35.368,
+        "source_shard": 9.301,
+        "cache": 2,
+        "runtime": 8
+      },
+      "host_subtotal_gib": 54.669000000000004
+    },
+    {
+      "operation": "Native sampling, split placement",
+      "gpu_count": 2,
+      "vram_gib_per_gpu": [
+        48,
+        48
+      ],
+      "host_ram_gib": 56,
+      "limits": "B1;512\u00d7768;17frames; text128; BF16; all components stay resident",
+      "ledger": {
+        "frozen_per_gpu_gib": [
+          29.877723975107074,
+          35.3676438331604
+        ],
+        "text_decode_gib": 8,
+        "DiT_live_gib": 4,
+        "workspace_per_gpu_gib": 8
+      },
+      "calculated_vram_subtotal_gib": [
+        45.877723975107074,
+        47.3676438331604
+      ],
+      "host_ledger_gib": {
+        "largest_CPU_component": 35.368,
+        "source_shard": 9.301,
+        "cache": 2,
+        "runtime": 8
+      },
+      "host_subtotal_gib": 54.669000000000004
+    },
+    {
+      "operation": "Native training, full supported text bound",
+      "gpu_count": 2,
+      "vram_gib_per_gpu": [
+        64,
+        96
+      ],
+      "host_ram_gib": 64,
+      "limits": "B2;same17frames/512\u00d7768;text1024;BF16;no checkpointing",
+      "ledger": {
+        "frozen_per_gpu_gib": [
+          29.877723975107074,
+          35.3676438331604
+        ],
+        "text_activation_gib": 20,
+        "DiT_retained_activation_gib": 42,
+        "workspace_per_gpu_gib": 10
+      },
+      "calculated_vram_subtotal_gib": [
+        60.015465615317225,
+        87.3676438331604
+      ],
+      "host_ledger_gib": {
+        "largest_CPU_component": 35.368,
+        "source_shard": 9.301,
+        "cache": 2,
+        "runtime": 8,
+        "max_text_staging": 6
+      },
+      "host_subtotal_gib": 60.669000000000004
+    },
+    {
+      "operation": "Native training, colocated GPU",
+      "gpu_count": 1,
+      "vram_gib_per_gpu": 128,
+      "host_ram_gib": 56,
+      "limits": "B2;512\u00d7768;17frames;text128;BF16;all components on one GPU",
+      "ledger": {
+        "frozen_gib": 65.24536780826747,
+        "retained_activation_gib": 33,
+        "trainable_update_gib": 0.13774164021015167,
+        "workspace_gib": 16
+      },
+      "calculated_vram_subtotal_gib": 114.38310944847763,
+      "host_ledger_gib": {
+        "largest_CPU_component": 35.368,
+        "source_shard": 9.301,
+        "cache": 2,
+        "runtime": 8
+      },
+      "host_subtotal_gib": 54.669000000000004
+    }
+  ],
+  "source_records": [
+    {
+      "path": "backends/ltx25-native95/src/ps_ltx25_native95/contracts.py",
+      "bytes": 7889,
+      "sha256": "4e53ec9ea567b1f8d27eb1dd0c3ca4f654da1ca1ba09acefd853799ef1dc2f98"
+    },
+    {
+      "path": "backends/ltx25-native95/src/ps_ltx25_native95/native.py",
+      "bytes": 11088,
+      "sha256": "b12c0cdd75ef0db5f6f7a6d212edce0ddda9f9ee8fd70893a04ef8325b570022"
+    },
+    {
+      "path": "backends/ltx25-native95/src/ps_ltx25_native95/adapter.py",
+      "bytes": 3806,
+      "sha256": "f25708c7c7ab2dddaf490c8eb70608e46e8ccb72d605908c8ee78bcbdd5b1029"
+    },
+    {
+      "path": "backends/ltx25-native95/src/ps_ltx25_native95/component_loader.py",
+      "bytes": 3304,
+      "sha256": "e41c3bbdaa83ec1da3818ede40e99ae1e12b80926663a3c410fb6e762c20aef5"
+    },
+    {
+      "path": "backends/ltx25-native95/src/ps_ltx25_native95/critic.py",
+      "bytes": 1855,
+      "sha256": "dc4cefdc7536e83823190b5d6d52f08ba708c02fa26d7857bda1cc2158b9d246"
+    }
+  ]
+}
