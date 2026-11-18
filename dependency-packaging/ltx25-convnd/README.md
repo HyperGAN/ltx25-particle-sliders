@@ -1,5 +1,12 @@
 # Exact ConvNd dependency packaging for native LTX
 
+> **Superseded for the current generation (2026-11-17):** this record
+> documents the PG0.9.5-era ConvNd packaging and remains the provenance
+> of the saved cohorts. The current PG0.10.1 generation record —
+> `particlegan==0.10.1+convnd.1` port, verification, and the remaining
+> core-derivative steps — lives in
+> [`../ltx25-convnd-pg0101/`](../ltx25-convnd-pg0101/README.md).
+
 The native owner wheel built and installed locally and passed four software checks plus the installed-console owner refusal. Those original operations used an already existing read-only LTX dependency prefix with `--no-deps`. A later separate offline packaging sequence successfully built exact PG37/corea432 sdists, built wheels from those sdists, installed both into an owned target and inspected exact Source/manifest/build-boundary/dependency/entrypoint metadata. It imported no runtime/framework, ran no tests and made no GPU/model/native calls; it did not replay the four owner checks. These local artifacts are distinct from public binary uploads.
 
 The published metadata derivative applies `core-dependency-only.diff` to shared core commit `a3767b8f1b70be7427811c2ca96c14824db46d3c`. Its sole edit is `particlegan==0.9.5` to `particlegan==0.9.5+convnd.1`. Keep core version `0.14.1+convnd.1`, every checked Python file, `pg095_convnd.json` with SHA256 `0542a3d40ed8d7eaae0c73bdcab52672920b6194b0a5d4cc2df95a89663ec9b2`, existing package-data, `_build_backend.py`, `setup.py`, `_core_build.py` and the CoreBuildPy allowlist unchanged. The original captured checkout/environment is not modified or retagged.

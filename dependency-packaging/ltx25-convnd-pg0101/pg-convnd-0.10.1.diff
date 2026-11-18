@@ -1,0 +1,173 @@
+diff --git a/particlegan/optim/dualnorm.py b/particlegan/optim/dualnorm.py
+index f1f21bca..560816a5 100644
+--- a/particlegan/optim/dualnorm.py
++++ b/particlegan/optim/dualnorm.py
+@@ -8,6 +8,7 @@ so the scheduled learning rate is applied exactly once.
+ from copy import deepcopy
+ from dataclasses import asdict
+ import math
++from itertools import product
+ 
+ import torch
+ from torch.optim import Optimizer
+@@ -35,7 +36,18 @@ NEWTON_SCHULZ_HYBRID_DENSE_PROFILE = "newton_schulz_hybrid_v1"
+ _NEWTON_SCHULZ_DENSE_PROFILES = (NEWTON_SCHULZ_DENSE_PROFILE, NEWTON_SCHULZ_HYBRID_DENSE_PROFILE)
+ 
+ 
+-def _convolution_version(rule):
++_CONVOLUTION_LAYOUTS = {
++    "conv1d_out_in": (1, False), "conv_transpose1d_in_out": (1, True),
++    "conv2d_out_in": (2, False), "conv_transpose2d_in_out": (2, True),
++    "conv3d_out_in": (3, False), "conv_transpose3d_in_out": (3, True),
++}
++
++
++def _convolution_version(rule, spatial_dims=2):
++    # Preserve every historical2D metadata value. Newly admitted1D/3D layouts
++    # explicitly identify this extension; the per-offset spectral law is unchanged.
++    if spatial_dims != 2:
++        return _convolution_version(rule) + "_nd_layout_v1"
+     if rule == "frobenius":
+         return _FROBENIUS_CONVOLUTION_VERSION
+     if rule == "quintic":
+@@ -59,12 +71,17 @@ def convolution_parameter_groups(groups, modules, *, family, convolution_rule="p
+         if root is None:
+             continue
+         for module in root.modules():
+-            if not isinstance(module, (torch.nn.Conv2d, torch.nn.ConvTranspose2d)):
++            if not isinstance(module, (torch.nn.Conv1d, torch.nn.Conv2d, torch.nn.Conv3d,
++                                       torch.nn.ConvTranspose1d, torch.nn.ConvTranspose2d,
++                                       torch.nn.ConvTranspose3d)):
+                 continue
++            spatial_dims = len(module.kernel_size)
++            transposed = isinstance(module, (torch.nn.ConvTranspose1d, torch.nn.ConvTranspose2d,
++                                             torch.nn.ConvTranspose3d))
+             metadata = {
+-                "update_version": _convolution_version(convolution_rule),
+-                "layout": ("conv_transpose2d_in_out" if isinstance(module, torch.nn.ConvTranspose2d)
+-                           else "conv2d_out_in"),
++                "update_version": _convolution_version(convolution_rule, spatial_dims),
++                "layout": (f"conv_transpose{spatial_dims}d_in_out" if transposed
++                           else f"conv{spatial_dims}d_out_in"),
+                 "groups": module.groups, "in_channels": module.in_channels,
+                 "out_channels": module.out_channels, "kernel_size": list(module.kernel_size),
+             }
+@@ -103,46 +120,61 @@ def _validate_convolution_group(group, convolution_rule="polar"):
+     fields = {"update_version", "layout", "groups", "in_channels", "out_channels", "kernel_size"}
+     if (group["algorithm"] != "dualnorm" or len(group["params"]) != 1
+             or not isinstance(metadata, dict) or set(metadata) != fields
+-            or metadata["update_version"] != _convolution_version(convolution_rule)
+-            or metadata["layout"] not in ("conv2d_out_in", "conv_transpose2d_in_out")):
++            or not isinstance(metadata["layout"], str) or metadata["layout"] not in _CONVOLUTION_LAYOUTS):
+         raise ValueError("invalid DualNorm convolution group or update version")
++    spatial_dims, transposed = _CONVOLUTION_LAYOUTS[metadata["layout"]]
++    if metadata["update_version"] != _convolution_version(convolution_rule, spatial_dims):
++        raise ValueError("invalid DualNorm convolution layout update version")
+     for key in ("groups", "in_channels", "out_channels"):
+         if type(metadata[key]) is not int or metadata[key] <= 0:
+             raise ValueError("invalid DualNorm convolution channels or groups")
+     groups, inputs, outputs = (metadata[key] for key in ("groups", "in_channels", "out_channels"))
+     kernel = metadata["kernel_size"]
+-    if (inputs % groups or outputs % groups or not isinstance(kernel, list) or len(kernel) != 2
++    if (inputs % groups or outputs % groups or not isinstance(kernel, list) or len(kernel) != spatial_dims
+             or any(type(size) is not int or size <= 0 for size in kernel)):
+         raise ValueError("invalid DualNorm convolution kernel or channel groups")
+-    channels = ((outputs, inputs // groups) if metadata["layout"] == "conv2d_out_in"
+-                else (inputs, outputs // groups))
++    channels = ((inputs, outputs // groups) if transposed else (outputs, inputs // groups))
+     parameter = group["params"][0]
+     if not parameter.is_floating_point() or tuple(parameter.shape) != (*channels, *kernel):
+         raise ValueError("DualNorm convolution metadata differs from the kernel shape")
+ 
+ 
+ def _convolution_matrices(tensor, metadata):
+-    """Yield writable [output/group, input/group] views in storage order."""
+-    transposed = metadata["layout"] == "conv_transpose2d_in_out"
++    """Writable channel matrices, group then lexicographic native kernel offsets.
++
++    Time/depth is an independent offset, never flattened into a channel axis.
++    2D order remains the original group,row,column order. Basic indexing keeps
++    original Parameter storage; transposed kernels orient each channel matrix.
++    """
++    _, transposed = _CONVOLUTION_LAYOUTS[metadata["layout"]]
+     channels = metadata["in_channels"] if transposed else metadata["out_channels"]
+     per_group = channels // metadata["groups"]
+     for group in range(metadata["groups"]):
+-        for row in range(metadata["kernel_size"][0]):
+-            for column in range(metadata["kernel_size"][1]):
+-                matrix = tensor[group * per_group:(group + 1) * per_group, :, row, column]
+-                yield matrix.T if transposed else matrix
++        for offset in product(*(range(size) for size in metadata["kernel_size"])):
++            matrix = tensor[(slice(group * per_group, (group + 1) * per_group), slice(None), *offset)]
++            yield matrix.T if transposed else matrix
+ 
+ 
+ def _convolution_batch(tensor, metadata):
+-    """Return channel matrices in [group, row, column] order."""
++    """Channel matrices in [group,*native_kernel_offsets,out/group,in/group]."""
+     groups = metadata["groups"]
+     inputs = metadata["in_channels"] // groups
+     outputs = metadata["out_channels"] // groups
+     kernel = metadata["kernel_size"]
+-    transposed = metadata["layout"] == "conv_transpose2d_in_out"
++    _, transposed = _CONVOLUTION_LAYOUTS[metadata["layout"]]
+     channels = (inputs, outputs) if transposed else (outputs, inputs)
+     storage = tensor.reshape(groups, *channels, *kernel)
+-    return storage.permute(0, 3, 4, 2, 1) if transposed else storage.permute(0, 3, 4, 1, 2)
++    offsets = tuple(range(3, 3 + len(kernel)))
++    return storage.permute(0, *offsets, 2, 1) if transposed else storage.permute(0, *offsets, 1, 2)
++
++
++def _convolution_storage(batch, metadata):
++    """Inverse layout only; no spectral arithmetic or Parameter replacement."""
++    dimensions = len(metadata["kernel_size"])
++    _, transposed = _CONVOLUTION_LAYOUTS[metadata["layout"]]
++    offsets = tuple(range(1, 1 + dimensions))
++    outputs, inputs = dimensions + 1, dimensions + 2
++    return batch.permute(0, inputs, outputs, *offsets) if transposed else batch.permute(0, outputs, inputs, *offsets)
+ 
+ 
+ def _polar_initial(oriented, smoothing):
+@@ -359,7 +391,7 @@ def _solve_newton_schulz(optimizer, direction_batch):
+ 
+ 
+ # Batched per-offset kernel solvers, keyed by NormalizedOptimizer._conv_batch_solver.
+-# Each maps a [group, row, column, out, in] direction batch to its update batch;
++# Each maps a [group, *kernel_offsets, out, in] direction batch to its update batch;
+ # graph caches are optimizer-owned, created lazily and never checkpointed.
+ _CONV_BATCH_SOLVERS = {
+     "batched_svd": _solve_batched_svd,
+@@ -516,7 +548,7 @@ class NormalizedOptimizer(Optimizer):
+                 raise ValueError("DualNorm convolution metadata requires convolution='per_offset'")
+             _validate_convolution_group(group, self.convolution_rule)
+         elif algorithm == "dualnorm" and any(p.ndim > 2 for p in group["params"]):
+-            raise ValueError("dualnorm high-rank weights require explicit Conv2d/ConvTranspose2d module metadata")
++            raise ValueError("dualnorm high-rank weights require explicit Conv1d/2d/3d or transpose module metadata")
+ 
+     def _refresh_adam(self):
+         adam_groups = [g for g in self.param_groups if g["algorithm"] == "adam"]
+@@ -686,10 +718,7 @@ class NormalizedOptimizer(Optimizer):
+         active = ((gradient_batch.norm(dim=(-2, -1)) >= eps)
+                   & (direction_batch.norm(dim=(-2, -1)) >= eps))
+         update = torch.where(active[..., None, None], update, 0.)
+-        if metadata["layout"] == "conv_transpose2d_in_out":
+-            update = update.permute(0, 4, 3, 1, 2)
+-        else:
+-            update = update.permute(0, 3, 4, 1, 2)
++        update = _convolution_storage(update, metadata)
+         parameter.add_(update.reshape_as(parameter), alpha=-rate * factor)
+ 
+     @torch.no_grad()
+diff --git a/pyproject.toml b/pyproject.toml
+index a64f7ad4..7a0250eb 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
+ 
+ [project]
+ name = "particlegan"
+-version = "0.10.1"
++version = "0.10.1+convnd.1"
+ description = "Composable PyTorch primitives for learnable particle priors, GANs, and DDGAN"
+ readme = "README.md"
+ license = "MIT"

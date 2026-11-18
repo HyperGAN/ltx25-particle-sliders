@@ -1,5 +1,18 @@
 # LTX2.5 native owner API and matched32 results
 
+> **PG0.10.1 generation (2026-11-17):** this distribution's dependency pins
+> now target the ParticleGAN 0.10.1 line — `particlegan==0.10.1+convnd.1`
+> and `particle-sliders-core==0.14.2+convnd.1`. The ConvNd extension has
+> been ported to 0.10.1 and verified (ParticleGAN branch
+> `experimental/ltx25-pg0101-convnd-v1`, profile
+> `pg0101-convnd-per-offset-v1`); the matching core derivative is the
+> remaining tracked step. Full record:
+> [`dependency-packaging/ltx25-convnd-pg0101/`](../../dependency-packaging/ltx25-convnd-pg0101/README.md).
+> The exact-dependency and matched32 sections below are the captured
+> record of the saved cohort, which actually ran on
+> `0.9.5+convnd.1` / core `0.14.1+convnd.1`; that provenance is not
+> rewritten.
+
 This separate distribution stages the captured full native LTX2.5 path and a
 new owner-injected execution interface. It preserves the twelve Python files
 and ten JSON files in `ps_ltx25_native95` byte for byte from source commit

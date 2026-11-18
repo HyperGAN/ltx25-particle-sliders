@@ -1,0 +1,30 @@
+Proposed metadata-only derivative of particle-sliders-core, to be applied on
+top of the PR #211 core (HyperGAN/particle-sliders branch
+chore/particlegan-0.10.1 @ c47c775791757b7d9fb0bf7c2b77bb7b1df3c3ef), whose
+pyproject already pins particlegan==0.10.1. This diff alone is NOT the whole
+core derivative: unlike the PG0.9.5 line, the PR #211 core has no convnd
+source-profile support, so the derivative also requires a pg0101_convnd.json
+manifest generated from the ParticleGAN 0.10.1+convnd.1 sources and
+CONVND_SOURCE_PROFILE support in particle_sliders/pg09.py + pg0101.py
+(mirroring the pg095-era CONVND_SOURCE_PROFILE / pg095_convnd.json pair).
+That core work is tracked in this directory's README.
+
+--- packages/particle-sliders-core/pyproject.toml
++++ packages/particle-sliders-core/pyproject.toml
+@@ -5,13 +5,13 @@
+ 
+ [project]
+ name = "particle-sliders-core"
+-version = "0.14.2"
++version = "0.14.2+convnd.1"
+ description = "Model-independent ParticleGAN slider lifecycle and shared tuning contracts"
+ readme = "SHARED-CORE-BOUNDARY.md"
+ requires-python = ">=3.11"
+ license = {file = "LICENSE"}
+ dependencies = [
+     "torch>=2.6,<3",
+-    "particlegan==0.10.1",
++    "particlegan==0.10.1+convnd.1",
+ ]
+ 
+ [project.optional-dependencies]
