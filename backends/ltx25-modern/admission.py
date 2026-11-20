@@ -8,7 +8,7 @@ import particle_sliders
 
 PRODUCT_SOURCES = {}
 CORE_FILES = {}
-CORE_COMMIT = 'a794e3b4a8813b012f2c4faa3da82b78d4a90214'
+CORE_COMMIT = 'c13890f8e2a1ecf1dc8eb9f2a37f9187cb9fea78'
 PRODUCT_ROOT = Path(__file__).resolve().parent
 CORE_ROOT = Path(particle_sliders.__file__).resolve().parent
 
@@ -20,12 +20,12 @@ def _files(root, suffixes):
 
 
 def admit():
-    if (version('particle-sliders-core'), version('particle-sliders-ltx25-modern-preview')) != ('0.12.0', '0.2.0'):
+    if (version('particle-sliders-core'), version('particle-sliders-ltx25-modern-preview')) != ('0.15.1', '0.2.0'):
         raise ValueError('exact core/product version differs from dummy preview')
     core = _files(CORE_ROOT, ('.py', '.json', '.hndl'))
     if core != CORE_FILES:
         raise ValueError('exact core runtime source closure differs')
-    product = _files(PRODUCT_ROOT, ('.py',))
+    product = _files(PRODUCT_ROOT, ('.py', '.json', '.hndl'))
     admission = product.pop('_admission.py', None)
     if product != PRODUCT_SOURCES or admission is None:
         raise ValueError('exact product runtime source closure differs')
