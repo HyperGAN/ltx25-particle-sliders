@@ -18,7 +18,18 @@ Public binary wheel/upload availability and full native execution through the
 public package remain unverified.
 The retained historical UNI/dummy documentation below describes its own scope.
 
-The original README follows unchanged.
+## Current CPU preview
+
+The isolated [LTX 2.5 CPU preview](backends/ltx25-modern/README.md) uses
+Particle Sliders core 0.15.1 and stock ParticleGAN 0.11.0. It exercises synthetic
+video-field training, exact FULL resume and RAW response inference. The
+framewise Conv2d preview and the captured native Conv3d critic use different
+optimizer paths. Install the preview in its own environment and use the
+captured native package for historical checkpoint reproduction.
+
+## Historical source publication
+
+The following README records the original extracted source and its dependencies.
 
 # LTX-2.5 particle sliders — experimental public source
 
@@ -42,7 +53,7 @@ python3.12 -m venv .venv
 ```
 
 Its namespace remains `particle_sliders_ltx25_dummy_preview`; entrypoints remain
-`ltx25-dummy-video-gan-preview`. The active shared-core source pin is now
+`ltx25-dummy-video-gan-preview`. That preview used the shared-core source pin
 `a794e3b4a8813b012f2c4faa3da82b78d4a90214`, with official PG0.9.4, HyperGAN develop
 `5f368a3770cf5bdae0448995c9f76e29af8049f7` and HNDL0.10.0. Native/live execution
 and generic native export remain refused. Historical source keeps its existing
@@ -78,4 +89,4 @@ libraries, installing the new wheel with `--no-deps`. Fresh full native dependen
 resolution and pretrained/GPU/media qualification remain unrun. No hosted CI
 workflow is included, and no hosted test pass is claimed.
 
-The active modern candidate now uses the cleared a794e3b core; see [migration notes](MODERN-CORE-MIGRATION.md). Retained snapshot documents/locks describe their original cohort and are not silently rewritten.
+See the [archived a794e3b migration notes](MODERN-CORE-MIGRATION.md) for that cohort’s install and dependency records.
