@@ -12,8 +12,8 @@ import particle_sliders_ltx25_dummy_preview.binding as product
 from particle_sliders.field_critic import FieldCritic
 from particle_sliders.inference import open_inference
 from particle_sliders.lifecycle import CheckpointError, SessionConfig
-from particle_sliders.pg094 import validate_pg09_domain
-from particle_sliders.pg09 import _hash
+from particle_sliders.engine import validate_engine_domain
+from particle_sliders.engine import _hash
 from particle_sliders.response import open_response
 
 
@@ -25,7 +25,7 @@ def rows(geometry=(2, 1, 1)):
 
 
 def session(**options):
-    return open_response(product.config(steps=3, ema_decay=.9, **options),
+    return open_response(product.config(steps=3, ema_decay=None, **options),
                          rows=rows(tuple(options.get('geometry', [2, 1, 1]))))
 
 
@@ -96,7 +96,7 @@ def test_native_geometry_masking_gradient_ownership_and_zero_strength(geometry):
         assert (packed.encoder_attention_mask == 0).any()
 
 
-def test_shared_updates_exact_resume_ema_and_rejection_before_mutation():
+def test_shared_updates_exact_resume_raw_and_rejection_before_mutation():
     with session() as full, session() as first, session() as resumed:
         before = _hash(full.game.network.state_dict())
         base = _hash(full.game.backend.backend.transformer.state_dict())
@@ -118,13 +118,13 @@ def test_shared_updates_exact_resume_ema_and_rejection_before_mutation():
         assert _hash(resumed.checkpoint()) == snapshot
         for scale in (0., .5, 1.):
             assert torch.isfinite(full.evaluate(strength=scale)).all()
-        assert full.export_dummy_inference(selection='ema')['selection'] == 'ema'
+        assert full.export_dummy_inference(selection='raw')['selection'] == 'raw'
 
 
 def test_native_only_inference_after_training_rows_removed(monkeypatch):
     with session() as s:
         s.train()
-        packet = s.export_dummy_inference(selection='ema')
+        packet = s.export_dummy_inference(selection='raw')
         native_row = rows()[0]
     # No training factory, teacher cache, critic or optimizer can be reconstructed.
     def forbidden(*args, **kwargs):
@@ -163,7 +163,7 @@ def test_historical_cohort_refused_before_native_hooks(monkeypatch):
 
 
 def test_builder_tamper_refused_before_native_hooks(monkeypatch):
-    import particle_sliders.fibo_hndl as gate
+    import particle_sliders_ltx25_dummy_preview.fibo_hndl as gate
     original = gate._sha
     monkeypatch.setattr(gate, '_sha', lambda path: '0' * 64
         if Path(path).name == 'hndl_networks.py' else original(path))
@@ -218,7 +218,7 @@ def test_changed_factory_source_artifact_refused_before_native_hooks(monkeypatch
 def test_core_does_not_admit_connector_tensor_or_wide_vector():
     for shape, domain in [((1,1024,4096), 'continuous_field'), ((1,4096), 'continuous_vector')]:
         with pytest.raises(ValueError):
-            validate_pg09_domain(shape, response_domain=domain)
+            validate_engine_domain(shape, response_domain=domain)
 
 
 def test_close_restores_host_forward_methods():
@@ -235,7 +235,7 @@ def test_installed_package_has_exact_opt_in_dependency_and_entry_points():
     from importlib.metadata import distribution
     dist = distribution('particle-sliders-ltx25-modern-preview')
     assert 'site-packages' in str(Path(product.__file__).resolve())
-    assert any('a794e3b4a8813b012f2c4faa3da82b78d4a90214' in req and '[hypergan-hndl]' in req for req in dist.requires)
+    assert any('ec1161f5d74481be3540cb0dfa63d0e8f8b54e90' in req for req in dist.requires)
     assert {ep.group for ep in dist.entry_points} == {
         'particle_sliders.response_backends', 'particle_sliders.inference_backends'}
 
@@ -408,27 +408,19 @@ def test_changed_dummy_artifact_runtime_identity_rejected_before_hooks(monkeypat
 
 
 # Extraction-only installed checks; the preceding source tests are unchanged.
-def test_extracted_off_raw_ema_responses_match_selected_adapter_states():
-    from particle_sliders.inference import open_inference
+def test_extracted_off_and_raw_responses_match_live_adapter():
     with session() as training:
         training.train(stop_after=2)
         raw = training.export_dummy_inference(selection='raw')
-        ema = training.export_dummy_inference(selection='ema')
+        with pytest.raises(ValueError, match='raw|RAW'):
+            training.export_dummy_inference(selection='ema')
         expected_off = training.evaluate(strength=0.)
         expected_raw = training.evaluate(strength=1.)
-        saved = deepcopy(training.game.network.state_dict())
-        try:
-            training.game.network.load_state_dict(training.ema.values)
-            expected_ema = training.evaluate(strength=1.)
-        finally:
-            training.game.network.load_state_dict(saved)
         row = training.game.rows[0].row
-    assert not torch.equal(expected_raw, expected_ema)
-    for packet, expected in [(raw,expected_raw),(ema,expected_ema)]:
-        with open_inference(packet,operation='response') as infer:
-            arguments=dict(neutral=row.neutral,video_latents=row.video_latents,audio_latents=row.audio_latents)
-            assert torch.equal(infer.response(strength=0.,**arguments),expected_off)
-            assert torch.equal(infer.response(strength=1.,**arguments),expected)
+    with open_inference(raw, operation='response') as infer:
+        arguments = dict(neutral=row.neutral, video_latents=row.video_latents, audio_latents=row.audio_latents)
+        assert torch.equal(infer.response(strength=0., **arguments), expected_off)
+        assert torch.equal(infer.response(strength=1., **arguments), expected_raw)
 
 
 def test_actual_prior_umbrella_packets_refused_after_source_lock_relocation(monkeypatch):

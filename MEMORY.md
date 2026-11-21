@@ -20,11 +20,11 @@ universal maximum for arbitrary inputs. These calculations start no model jobs.
 ## Actual native residency
 
 Model `Lightricks/LTX-2.5-Diffusers@4791a1100e0cf97f7ed5c55c12dd71dce13f9dd3`. The original
-[contracts](backends/ltx25-native95/src/ps_ltx25_native95/contracts.py),
-[component loader](backends/ltx25-native95/src/ps_ltx25_native95/component_loader.py),
-[native forward](backends/ltx25-native95/src/ps_ltx25_native95/native.py),
-[adapter](backends/ltx25-native95/src/ps_ltx25_native95/adapter.py) and
-[model configs](backends/ltx25-native95/src/ps_ltx25_native95/model-configs)
+[contracts](https://github.com/HyperGAN/ltx25-particle-sliders/blob/ffc51b2df3c0644c6cd763fda8cb43f55c59436b/backends/ltx25-native95/src/ps_ltx25_native95/contracts.py),
+[component loader](https://github.com/HyperGAN/ltx25-particle-sliders/blob/ffc51b2df3c0644c6cd763fda8cb43f55c59436b/backends/ltx25-native95/src/ps_ltx25_native95/component_loader.py),
+[native forward](https://github.com/HyperGAN/ltx25-particle-sliders/blob/ffc51b2df3c0644c6cd763fda8cb43f55c59436b/backends/ltx25-native95/src/ps_ltx25_native95/native.py),
+[adapter](https://github.com/HyperGAN/ltx25-particle-sliders/blob/ffc51b2df3c0644c6cd763fda8cb43f55c59436b/backends/ltx25-native95/src/ps_ltx25_native95/adapter.py) and
+[model configs](https://github.com/HyperGAN/ltx25-particle-sliders/blob/ffc51b2df3c0644c6cd763fda8cb43f55c59436b/backends/ltx25-native95/src/ps_ltx25_native95/model-configs)
 define this full native AV model's video-response training route.
 
 The code loads one complete CPU component at a time, then moves it to its
@@ -80,7 +80,7 @@ videos fit these budgets. Config/index metadata is captured in [inputs](docs/mem
 
 Training figures freeze pretrained weights, use RAW current adapters and explicitly
 disable weight EMA. They include no full-base gradients or EMA shadow model.
-The PG 0.9.5 `bispf_optimized` recipe uses zero-momentum DualNorm, not Adam's two
+The captured `bispf_optimized` recipe uses zero-momentum DualNorm, not Adam's two
 full-size moment tensors. Its direction blend still retains protected gradients,
 clones originals/displacements, and converts up to two protected normals to
 FP64. For a conservative planning allowance, the tables reserve **80 bytes per
@@ -89,9 +89,9 @@ and 56 for protected FP32 gradients, FP32/FP64 direction/projection/polar,
 rollback and serialization temporaries. This is an explicit allowance, not a claim
 that every temporary is simultaneously allocated or that it is an exact peak.
 Small scalar optimizer statistics remain enabled. Recipe changes need a new ledger.
-See released [PG 0.9.5 recipes](https://github.com/255BITS/ParticleGAN/blob/v0.9.5/particlegan/recipes.py),
-[DualNorm](https://github.com/255BITS/ParticleGAN/blob/v0.9.5/particlegan/optim/dualnorm.py)
-and [direction blend](https://github.com/255BITS/ParticleGAN/blob/v0.9.5/particlegan/optim/direction_blend.py).
+See the original [ParticleGAN recipes](https://github.com/255BITS/ParticleGAN/blob/1b8355b184b21bb7d81104ee590813c262f6df0a/particlegan/recipes.py),
+[DualNorm](https://github.com/255BITS/ParticleGAN/blob/1b8355b184b21bb7d81104ee590813c262f6df0a/particlegan/optim/dualnorm.py)
+and [direction blend](https://github.com/255BITS/ParticleGAN/blob/1b8355b184b21bb7d81104ee590813c262f6df0a/particlegan/optim/direction_blend.py).
 
 Activation entries below are architecture-based envelopes. Fused/memory-efficient
 SDPA is assumed for the pretrained model; a math attention fallback that materializes

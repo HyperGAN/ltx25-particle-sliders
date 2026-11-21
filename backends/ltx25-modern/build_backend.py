@@ -40,10 +40,12 @@ def staged():
                     text = replace_once(text, 'from conceptmod.textsliders.' + module + ' import',
                                         'from .' + module + ' import')
             (destination / installed).write_text(text)
+        for name in ('fibo_hndl.py', 'fibo_critic.hndl', 'fibo_projection.hndl', 'fibo_hndl_010_sources.json'):
+            shutil.copyfile(ROOT / name, destination / name)
         sources = {path.name: hashlib.sha256(path.read_bytes()).hexdigest()
-                   for path in sorted(destination.glob('*.py'))}
-        core = json.loads((ROOT / 'core-a794-runtime.json').read_text())
-        if core['commit'] != 'a794e3b4a8813b012f2c4faa3da82b78d4a90214':
+                   for path in sorted(destination.iterdir())}
+        core = json.loads((ROOT / 'core-current-runtime.json').read_text())
+        if core['commit'] != 'ec1161f5d74481be3540cb0dfa63d0e8f8b54e90':
             raise ValueError('unreviewed core source profile')
         admission = replace_once((ROOT / 'admission.py').read_text(), 'PRODUCT_SOURCES = {}',
                                  'PRODUCT_SOURCES = ' + repr(sources))
