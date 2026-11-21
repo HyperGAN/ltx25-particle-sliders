@@ -39,9 +39,7 @@ def _condition_bank(runtime, adapter, prompt, token_count, strengths):
     return bank
 
 
-@torch.no_grad()
-def render(session, *, prompt, step_gains, strength=1.0, **request):
-    """Use original Gemma/connector outputs at each step of the original AV sampler."""
+def _runtime_owner(session):
     session._open()
     if session.selection != "raw" or session.binding.render is None:
         raise ValueError("LTX 2.5 scheduling requires an open RAW render session")
@@ -52,21 +50,24 @@ def render(session, *, prompt, step_gains, strength=1.0, **request):
     runtime = runtimes[0]
     if runtime.transformer.is_cache_enabled:
         raise ValueError("LTX 2.5 scheduled conditioning requires the uncached transformer profile")
-    strengths = _strengths(strength, step_gains)
+    return runtime
+
+
+def _render_with_conditions(session, runtime, *, prompt, strength, candidates, select, request):
     config = session.manifest["specification"]["configuration"]
-    bank = _condition_bank(runtime, session.binding.network, prompt, config["geometry"]["text_tokens"], strengths)
+    bank = _condition_bank(runtime, session.binding.network, prompt, config["geometry"]["text_tokens"], candidates)
     sigmas = None
     position = 0
 
     def substitute(_model, args, kwargs):
         nonlocal position, sigmas
-        if position >= len(strengths):
+        if position >= len(DISTILLED_SIGMAS):
             raise RuntimeError("LTX 2.5 made extra native denoiser calls")
         if sigmas is None:
             sigmas = runtime.pipe.scheduler.sigmas.detach().cpu().tolist()
-            if len(sigmas) != len(strengths) + 1:
+            if len(sigmas) != len(DISTILLED_SIGMAS) + 1:
                 raise RuntimeError("LTX 2.5 actual scheduler interval count differs")
-        video, audio, mask = bank[strengths[position]]
+        video, audio, mask = bank[select(position, kwargs)]
         conditions = {
             "encoder_hidden_states": video, "audio_encoder_hidden_states": audio,
             "encoder_attention_mask": mask, "audio_encoder_attention_mask": mask,
@@ -83,6 +84,18 @@ def render(session, *, prompt, step_gains, strength=1.0, **request):
         result = session.render(prompt=prompt, strength=strength, **request)
     finally:
         hook.remove()
-    if position != len(strengths):
+    if position != len(DISTILLED_SIGMAS):
         raise RuntimeError("LTX 2.5 finished before applying each conditioning")
+    return result, sigmas
+
+
+@torch.no_grad()
+def render(session, *, prompt, step_gains, strength=1.0, **request):
+    """Use original Gemma/connector outputs at each step of the original AV sampler."""
+    runtime = _runtime_owner(session)
+    strengths = _strengths(strength, step_gains)
+    result, sigmas = _render_with_conditions(
+        session, runtime, prompt=prompt, strength=strength, candidates=strengths,
+        select=lambda position, _: strengths[position], request=request,
+    )
     return {**result, "strength_schedule": {"sigmas": sigmas, "effective_strengths": strengths}}

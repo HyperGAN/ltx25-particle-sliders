@@ -75,6 +75,55 @@ conditioning for each distinct strength and selects it at the denoiser call.
 The result includes `strength_schedule` with the actual sigmas and applied
 strengths. A CPU dispatch fixture passed.
 
+### Activation-dependent strength
+
+`ps_ltx25_native.adaptive_render.render` can gate the saved RAW edit on
+the same single-conditional distilled sampler. It reads one live packed
+video/audio pair before each denoiser call. The probe input is the
+concatenation of the FP32 token means of the video and audio latents, in
+that order. A decision selects either the OFF conditioning or the fixed
+nominal-strength conditioning for **both** modalities. It uses the paper's
+allocation equation to gate the existing conditioning edit. The pipeline's
+coupled latents and solver stay in their native path.
+[Right Token, Right Time](https://arxiv.org/html/2611.18274v1#S3)
+
+Build a wheel from the exact shared-core commit
+`b1f780decc516808cfd3019d5e5b674457161f86` and pass its path as `core_wheel`.
+The adaptive reader verifies the bytes of the shared gate module before
+using it. The strict RAW owner continues to use the installed core and
+runtime that match the artifact's source receipt. Keep historical packages
+and checkpoints in their captured cohorts.
+[Shared implementation](https://github.com/HyperGAN/particle-sliders/pull/269)
+
+```python
+from ps_ltx25_native.adaptive_render import render
+
+result = render(
+    session, prompt=prompt, seed=render_seed, core_wheel=core_wheel,
+    method="cfp", parameter=calibrated_threshold, direction=fitted_direction,
+    strength=qualified_nominal_strength, evidence_ref=calibration_artifact_id,
+)
+trace = result["strength_schedule"]
+```
+
+Fit the direction on matched native activation examples. Use
+`gate_core(core_wheel).calibrate_gate_budget` on separate trajectories with
+the saved edit active. The calibration callback can pool the actual fired
+and eligible counts as `GateUsage`. CLABS takes a calibrated bias,
+`gate_seed`, and explicit `clabs` fields for its projection statistics and
+controller gains. The matched random arm takes the same target rate and a
+`gate_seed`. The receipt provides the applied strengths, firing counts and
+sigma-integrated dose so the fixed schedule can replay the choices.
+Report realized rate and dose, compare the matching RAW checkpoint against
+OFF and constant controls on disjoint finished videos, and check whole-video
+and stereo integrity separately. The archived Warm Sunset comparisons below
+qualify fixed schedules. Adaptive gains await a fitted joint probe and active
+rollout calibration. The CPU fixture uses the native FlowMatch Euler
+scheduler and a small coupled denoiser. Set `LTX25_STEERING_CORE_WHEEL` to
+the same core wheel to run its adaptive tests.
+
+### Qualified fixed schedules
+
 Early-heavy strength led on both tested Warm Sunset RAW3 cases. At nominal
 strength 2/3, the mean finished-video intensity gain over matched OFF was
 +0.00197 early-heavy, +0.00110 constant, and +0.00034 late-heavy. The three
