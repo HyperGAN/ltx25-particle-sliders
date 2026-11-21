@@ -52,7 +52,7 @@ budget conflict stops the run; there is no automatic fallback or retry.
 
 ## 2. Learning-rate and metric proposal — not a result
 
-The actual shared `bispf_optimized` preset in the qualified PG 0.9.4 source
+The actual shared `bispf_optimized` preset in the archived preview source
 inherits `lr = 0.012` and `d_lr_mult = 1.5` from `bcap`, with a cosine schedule.
 The current LTX dummy factory does not expose an LR option. Historical LTX UNI
 cards use AdamW at `0.0002` for 700 steps; that is a different optimizer and

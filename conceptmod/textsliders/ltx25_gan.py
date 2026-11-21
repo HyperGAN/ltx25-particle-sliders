@@ -13,12 +13,11 @@ from pathlib import Path
 import torch
 from torch import nn
 
-from particle_sliders.fibo_hndl import verified_builder
-from particle_sliders.pg094 import ConditionalPG094, PG_SOURCE_PROFILE
+from .fibo_hndl import verified_builder
+from particle_sliders.engine import ConditionalParticleGAN, PG_SOURCE_PROFILE, PG_VERSION, _hash
 from particle_sliders.lifecycle import Binding, SessionConfig, UnsupportedOperation
 from particle_sliders.response import ResponseBackend, ResponseCapabilities, ResponseSession
 from particle_sliders.inference import InferenceBackend, InferenceBinding, native_identity
-from particle_sliders.pg09 import _hash
 from .ltx25_backend import (
     LTX25Backend, DEFAULT_MODEL, embed_lora_hosts, ltx_pack_feature_dim,
     DummyTokenizer, DummyEncoder, DummyLTX2Connectors, DummyLTX2Transformer,
@@ -28,7 +27,7 @@ from .ltx25_uni import (
     RECIPE_EMBED, resolve_concept_token_ids, require_concept_tokens, unused_hold_mask,
 )
 
-COHORT = 'ltx25-dummy-video-field-gan-hg-hndl-v2-preview'
+COHORT = 'ltx25-dummy-video-field-gan-hg-hndl-current-preview'
 BACKEND = 'ltx25-dummy-video-gan-preview'
 DUMMY_MODEL = 'dummy-ltx25-api-fixture-v2'
 OBJECTIVE = 'frozen-plus-video-velocity;student-neutral;frozen-neutral-audio'
@@ -321,7 +320,7 @@ def validate(options):
 def capabilities(options):
     validate(options)
     return ResponseCapabilities('adapter_gan', 'video', 'dummy-ltx-video-latent-velocity',
-        'continuous_field', (1, 128, *options.get('geometry', [2, 1, 1])), '0.9.4', PG_SOURCE_PROFILE,
+        'continuous_field', (1, 128, *options.get('geometry', [2, 1, 1])), PG_VERSION, PG_SOURCE_PROFILE,
         qualification=DUMMY_QUALIFICATION)
 
 
@@ -345,7 +344,7 @@ def prepare(options, **staged):
         with torch.random.fork_rng():
             torch.manual_seed(options.get('seed', 7) + 1)
             critic = VideoFieldCritic(128, conditions.shape[1], geometry)
-        game = ConditionalPG094(adapter, prepared, critic,
+        game = ConditionalParticleGAN(adapter, prepared, critic,
             conditions=conditions, total_steps=options.get('steps', 4), batch_size=options.get('batch', 2),
             seed=options.get('seed', 7))
         native_config = {key: options[key] for key in ('geometry', 'dummy', 'seed') if key in options}
@@ -378,7 +377,7 @@ class LTXResponseBackend(ResponseBackend):
 
 
 backend = LTXResponseBackend(BACKEND, ResponseCapabilities('adapter_gan', 'video',
-    'dummy-ltx-video-latent-velocity', 'continuous_field', (1, 128, 2, 1, 1), '0.9.4', PG_SOURCE_PROFILE,
+    'dummy-ltx-video-latent-velocity', 'continuous_field', (1, 128, 2, 1, 1), PG_VERSION, PG_SOURCE_PROFILE,
     qualification=DUMMY_QUALIFICATION),
     prepare, validate, configure_capabilities=capabilities)
 
