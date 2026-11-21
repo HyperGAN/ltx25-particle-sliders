@@ -66,3 +66,12 @@ latent-phase manifest. `decode_saved_boundary` consumes that manifest
 and loads only the original video VAE, audio VAE, and vocoder on the
 original sampling device. Both APIs use the runner's actual admission.
 The ownerless console refuses model-loading commands.
+
+For an open strict RAW render session, call
+`ps_ltx25_native.scheduled_render.render(session, prompt=..., step_gains=...)`.
+Use one gain per native distilled interval. The adapter is in the Gemma text
+encoder and connectors, so the add-on builds the native audio and video
+conditioning for each distinct strength and selects it at the denoiser call.
+The result includes `strength_schedule` with the actual sigmas and applied
+strengths. A CPU dispatch fixture passed. The pretrained audiovisual comparison
+is pending.
