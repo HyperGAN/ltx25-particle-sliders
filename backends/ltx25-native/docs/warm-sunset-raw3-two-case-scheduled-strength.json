@@ -1,0 +1,120 @@
+{
+  "profile": "LTX 2.5 Warm Sunset RAW3",
+  "raw_sha256": "e86105f64beb173a376692c066434c25a27f32bed126f81329325cc2639989d4",
+  "measure": "Finished-video Warm Sunset intensity ON minus exact matched OFF",
+  "geometry": {
+    "height": 512,
+    "width": 768,
+    "frames": 17,
+    "text_tokens": 128,
+    "fps": 24.0
+  },
+  "matched_cases": 2,
+  "actual_sigmas": [
+    1.0,
+    0.9937499761581421,
+    0.987500011920929,
+    0.981249988079071,
+    0.9750000238418579,
+    0.909375011920929,
+    0.7250000238418579,
+    0.421875,
+    0.0
+  ],
+  "nominal_strength": 0.6666666666666666,
+  "seed7_retained_evidence": "warm-sunset-raw3-seed7-scheduled-strength.json",
+  "heldout": {
+    "seed": 2307,
+    "scene": "Red ceramic teapot by a window in neutral daylight with quiet room ambience",
+    "arms": {
+      "shared-off": {
+        "intensity": 0.003219320275747083,
+        "effect_gain": 0.0,
+        "mp4_sha256": "f7370acff851ef8376a5310b8f95113b35b3fafd2b3cf19f7ee831f71c8f058d",
+        "whole_AV": {
+          "video": "pass",
+          "audio": "pass"
+        },
+        "video_frames": 17,
+        "decoded_audio_samples_per_channel": 33792
+      },
+      "constant": {
+        "intensity": 0.003746975284083225,
+        "effect_gain": 0.0005276550083361418,
+        "mp4_sha256": "98042dd7ea465892e903481fee47ec09c71c32107f2dcf727400eacbf46ca4c2",
+        "whole_AV": {
+          "video": "pass",
+          "audio": "pass"
+        },
+        "video_frames": 17,
+        "decoded_audio_samples_per_channel": 33792,
+        "effective_strengths": [
+          0.6666666666666666,
+          0.6666666666666666,
+          0.6666666666666666,
+          0.6666666666666666,
+          0.6666666666666666,
+          0.6666666666666666,
+          0.6666666666666666,
+          0.6666666666666666
+        ],
+        "sigma_integrated_dose": 0.6666666666666666
+      },
+      "early": {
+        "intensity": 0.004229618321861214,
+        "effect_gain": 0.001010298046114131,
+        "mp4_sha256": "20e5d70fcda67b1208d41bc055115bd5a0d0a41527f40c7d1c086319f63729cd",
+        "whole_AV": {
+          "video": "pass",
+          "audio": "pass"
+        },
+        "video_frames": 17,
+        "decoded_audio_samples_per_channel": 33792,
+        "effective_strengths": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.8281787076724305,
+          0.3333333333333333
+        ],
+        "sigma_integrated_dose": 0.6666666666666667
+      },
+      "late": {
+        "intensity": 0.0036107645469735648,
+        "effect_gain": 0.0003914442712264817,
+        "mp4_sha256": "e0f8777c274cbac810854817174f063e69c4a7b6ffc5e17f1419b01c7d311f00",
+        "whole_AV": {
+          "video": "pass",
+          "audio": "pass"
+        },
+        "video_frames": 17,
+        "decoded_audio_samples_per_channel": 33792,
+        "effective_strengths": [
+          0.3333333333333333,
+          0.3333333333333333,
+          0.3333333333333333,
+          0.3333333333333333,
+          0.3333333333333333,
+          0.3333333333333333,
+          0.5051546256609027,
+          1.0
+        ],
+        "sigma_integrated_dose": 0.6666666666666666
+      }
+    },
+    "terminal_receipt_sha256": "416a9af4d6a200b25d4c4b01a3e2622e63bdf7a48afe8321dd492c4f790aca5e"
+  },
+  "mean_gains": {
+    "constant": 0.001095776366445362,
+    "early": 0.0019708417604708444,
+    "late": 0.00034061603950774155
+  },
+  "early_over_equal_dose_constant": 0.0008750653940254823,
+  "earlier_unresolved_seed": 19,
+  "scope": "Two matched prompt-and-seed cases using the archived RAW3 slider and the original native eight-step sampler.",
+  "new_optimizer_updates": 0,
+  "ema_decay": null
+}
