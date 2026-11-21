@@ -75,10 +75,13 @@ conditioning for each distinct strength and selects it at the denoiser call.
 The result includes `strength_schedule` with the actual sigmas and applied
 strengths. A CPU dispatch fixture passed.
 
-The archived Warm Sunset RAW3 seed-7 clip gained +0.00293 with early-heavy
-strength, +0.00166 with constant, and +0.00029 with late-heavy at nominal
-strength 2/3. The original native route reproduced the constant audio and video
-latents and finished MP4 exactly. All three arms passed the whole-video and
-stereo integrity checks. This is a single-seed result. The held-out
-comparison is pending.
+Early-heavy strength led on both tested Warm Sunset RAW3 cases. At nominal
+strength 2/3, the mean finished-video intensity gain over matched OFF was
++0.00197 early-heavy, +0.00110 constant, and +0.00034 late-heavy. The three
+profiles applied the same strength integrated across the native sigmas.
+On held-out seed 2307, early-heavy gained +0.00101 versus +0.00053 for
+constant. Both cases passed whole-video and stereo integrity checks. The
+earlier seed-19 attempt remains unresolved. These results apply to this RAW3
+slider and the tested eight-step sampler.
+[Two-case evidence](docs/warm-sunset-raw3-two-case-scheduled-strength.json) ·
 [Seed-7 evidence](docs/warm-sunset-raw3-seed7-scheduled-strength.json)
