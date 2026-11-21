@@ -1,0 +1,28 @@
+{
+  "schema": "ltx25-native-factory-v2",
+  "derived_from": "ffc51b2df3c0644c6cd763fda8cb43f55c59436b",
+  "files": {
+    "__init__.py": "38180b38789cd08bcc666cf2767c6db5c382b38e2386e30cbb3781459d9b5793",
+    "adapter.py": "f25708c7c7ab2dddaf490c8eb70608e46e8ccb72d605908c8ee78bcbdd5b1029",
+    "cache.py": "0c141a20197e72aced201272c72961f1401a952a93ea173cd7aaabf6beb77030",
+    "cli.py": "ded525faab979ea589ba3ca3ff6935cc2c4ddd9e7b280bd3f80f2db508e9a9ff",
+    "component_loader.py": "e41c3bbdaa83ec1da3818ede40e99ae1e12b80926663a3c410fb6e762c20aef5",
+    "contracts.py": "2e3cdef67b0adb98b3482993624c7d7f260543bf4a3a1a9a2c012dfc4a62631e",
+    "critic.py": "7c554f474978a86e7b78e20cccee9b9324ba6174e0357e220bb9f7d5a89d9736",
+    "current_core.json": "5f5231f4c6fcd4b4f1e061e4d1be2e72f5a64d4b4247eda60c3d510927245d56",
+    "first_rows.py": "578ddcb1467ce8e885e42ee340773b2b9d303a0fed79f3da27701ebb03e97f53",
+    "initialization.py": "c6b985916cded4db2aefe42975955db6e515aa2a14994c85563eaa9d39ef7a4e",
+    "lifecycle.py": "65b62bcf0f8a883e24d613e41fa5386cc86112e5ae4cf8c5914dbdd884a6d4f9",
+    "model-configs/audio_vae/config.json": "9994583546bf9bc08d69dafb31f24dbaacecbb7920e5cb7189c818ef188b1372",
+    "model-configs/connectors/config.json": "7f4aa822c3352db1d07850da713d1943157601c8769b555cb9243f1c6dfb4e61",
+    "model-configs/model_index.json": "37202d586ae6a3527b9862fa299d33550676367bce6116be0221991b1f327a0c",
+    "model-configs/scheduler/scheduler_config.json": "2c2d045e04ab0aabd32b5bc4219fe36fdf457e6d5453e02686058c57a710b1a3",
+    "model-configs/text_encoder/config.json": "39c1f22c524988e91b2fee08226279a664e76a9e844a3795929aed0366bf7302",
+    "model-configs/transformer/config.json": "93a96ad2f29e403ba5fd04689a99460d156b43db164e139fcdf20331a7b1639d",
+    "model-configs/vae/config.json": "89c617661a3508476b43860a618c83121a9c6d0f6f110b575830586a871cf7c2",
+    "model-configs/vocoder/config.json": "e9591852ba98f22ad8db9b9e2163dead5cafe1850dcdc13dcac8070ac5f31a8c",
+    "native-sources.json": "e4f67a1842e3fd7894dd8fa2bf3f6477ef98fdb51db9b4e7ffcbb3f5f6268239",
+    "native.py": "f0df4e3bdc05dcbc4d94175c2013360057d16feaba9d9d17824b6f9210fb9e6b",
+    "render.py": "46059a4c457e0f512f0b00eaf7a306323270fd9899856fdf7b7149b6981d3714"
+  }
+}

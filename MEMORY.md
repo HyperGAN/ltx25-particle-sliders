@@ -89,9 +89,9 @@ and 56 for protected FP32 gradients, FP32/FP64 direction/projection/polar,
 rollback and serialization temporaries. This is an explicit allowance, not a claim
 that every temporary is simultaneously allocated or that it is an exact peak.
 Small scalar optimizer statistics remain enabled. Recipe changes need a new ledger.
-See the original [ParticleGAN recipes](https://github.com/255BITS/ParticleGAN/blob/1b8355b184b21bb7d81104ee590813c262f6df0a/particlegan/recipes.py),
-[DualNorm](https://github.com/255BITS/ParticleGAN/blob/1b8355b184b21bb7d81104ee590813c262f6df0a/particlegan/optim/dualnorm.py)
-and [direction blend](https://github.com/255BITS/ParticleGAN/blob/1b8355b184b21bb7d81104ee590813c262f6df0a/particlegan/optim/direction_blend.py).
+See the [current ParticleGAN recipe](https://github.com/HyperGAN/ParticleGAN/blob/d5dec2fe005305082acf382f0939a4bdb51c7131/particlegan/recipes.py),
+[DualNorm](https://github.com/HyperGAN/ParticleGAN/blob/d5dec2fe005305082acf382f0939a4bdb51c7131/particlegan/optim/dualnorm.py)
+and [direction blend](https://github.com/HyperGAN/ParticleGAN/blob/d5dec2fe005305082acf382f0939a4bdb51c7131/particlegan/optim/direction_blend.py).
 
 Activation entries below are architecture-based envelopes. Fused/memory-efficient
 SDPA is assumed for the pretrained model; a math attention fallback that materializes
