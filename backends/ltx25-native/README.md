@@ -73,5 +73,12 @@ Use one gain per native distilled interval. The adapter is in the Gemma text
 encoder and connectors, so the add-on builds the native audio and video
 conditioning for each distinct strength and selects it at the denoiser call.
 The result includes `strength_schedule` with the actual sigmas and applied
-strengths. A CPU dispatch fixture passed. The pretrained audiovisual comparison
-is pending.
+strengths. A CPU dispatch fixture passed.
+
+The archived Warm Sunset RAW3 seed-7 clip gained +0.00293 with early-heavy
+strength, +0.00166 with constant, and +0.00029 with late-heavy at nominal
+strength 2/3. The original native route reproduced the constant audio and video
+latents and finished MP4 exactly. All three arms passed the whole-video and
+stereo integrity checks. This is a single-seed result. The held-out
+comparison is pending.
+[Seed-7 evidence](docs/warm-sunset-raw3-seed7-scheduled-strength.json)

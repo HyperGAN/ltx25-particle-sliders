@@ -1,0 +1,88 @@
+{
+  "profile": "Warm Sunset RAW3 seed-7 native audiovisual diagnostic",
+  "raw_sha256": "e86105f64beb173a376692c066434c25a27f32bed126f81329325cc2639989d4",
+  "seed": 7,
+  "matched_cases": 1,
+  "geometry": {
+    "height": 512,
+    "width": 768,
+    "frames": 17,
+    "text_tokens": 128,
+    "fps": 24.0
+  },
+  "actual_sigmas": [
+    1.0,
+    0.9937499761581421,
+    0.987500011920929,
+    0.981249988079071,
+    0.9750000238418579,
+    0.909375011920929,
+    0.7250000238418579,
+    0.421875,
+    0.0
+  ],
+  "nominal_strength": 0.6666666666666666,
+  "measure": "Finished-video Warm Sunset intensity ON minus exact matched OFF",
+  "off_sha256": "ce087bc914b9026e33283ded2e4d2893562282a79881a22805db5b1bd308042d",
+  "constant_native_latents_and_mp4_byte_exact": true,
+  "seed7_winner": "early",
+  "heldout_case_pending": true,
+  "arms": {
+    "constant": {
+      "effect_gain": 0.0016638977245545825,
+      "on_sha256": "a74e2f49e161de65ef13ccadcdfc1494ffabc8e1f5c5385a233fc7d9620f2142",
+      "whole_AV": {
+        "video": "pass",
+        "audio": "pass"
+      },
+      "effective_strengths": [
+        0.6666666666666666,
+        0.6666666666666666,
+        0.6666666666666666,
+        0.6666666666666666,
+        0.6666666666666666,
+        0.6666666666666666,
+        0.6666666666666666,
+        0.6666666666666666
+      ]
+    },
+    "early": {
+      "effect_gain": 0.0029313854748275582,
+      "on_sha256": "05369d853054da6d0d3c29a7a40e1d0a618b4921dd31ffade84f2cb9ec085b57",
+      "whole_AV": {
+        "video": "pass",
+        "audio": "pass"
+      },
+      "effective_strengths": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.8281787076724305,
+        0.3333333333333333
+      ]
+    },
+    "late": {
+      "effect_gain": 0.0002897878077890014,
+      "on_sha256": "f6e5d088b8bea5b5fca7922bc85ee4427734050700c0f965fae3009e767efd56",
+      "whole_AV": {
+        "video": "pass",
+        "audio": "pass"
+      },
+      "effective_strengths": [
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.5051546256609027,
+        1.0
+      ]
+    }
+  },
+  "new_optimizer_updates": 0,
+  "ema_decay": null
+}
