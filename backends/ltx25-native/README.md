@@ -214,6 +214,17 @@ for case in record["matched_cases"]:
 assert {key: fmean(row[key] for row in contrasts) for key in contrasts[0]} == record["mean"]
 ```
 
+### Measured Warm Sunset CLABS
+
+The shared calibration picked a bias at 7 firings in 16 intervals, within
+one firing of the paper's 50% test budget. On two held-out Warm Sunset RAW3
+seeds, CLABS averaged +0.00004836 over slider OFF. Its dose-matched constant
+averaged +0.00009977 over OFF, a mean advantage of +0.00005141. CLABS led on
+seed 7, and the constant led on seed 2307. Each clip passed independent
+video and stereo integrity checks. The measured CFP result above remains
+the stronger adaptive comparison for this panel.
+[CLABS calibration, firing decisions, and per-case outcomes](docs/warm-sunset-raw3-clabs-two-case.json)
+
 ### Qualified fixed schedules
 
 Early-heavy strength led on both tested Warm Sunset RAW3 cases. At nominal
