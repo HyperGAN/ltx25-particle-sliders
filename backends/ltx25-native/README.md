@@ -116,11 +116,103 @@ controller gains. The matched random arm takes the same target rate and a
 sigma-integrated dose so the fixed schedule can replay the choices.
 Report realized rate and dose, compare the matching RAW checkpoint against
 OFF and constant controls on disjoint finished videos, and check whole-video
-and stereo integrity separately. The archived Warm Sunset comparisons below
-qualify fixed schedules. Adaptive gains await a fitted joint probe and active
-rollout calibration. The CPU fixture uses the native FlowMatch Euler
-scheduler and a small coupled denoiser. Set `LTX25_STEERING_CORE_WHEEL` to
-the same core wheel to run its adaptive tests.
+and stereo integrity separately. The CPU fixture uses the native FlowMatch
+Euler scheduler and a small coupled denoiser. Set `LTX25_STEERING_CORE_WHEEL`
+to the same core wheel to run its adaptive tests.
+
+### Measured Warm Sunset CFP
+
+The historical Warm Sunset RAW3 run used Contrastive Feature Projection
+(CFP) on the eight-step joint LTX 2.5 sampler. A fitted joint probe reads
+the pre-edit packed video and audio token means. At each native interval,
+the shared gate compares its signed projection against a calibrated
+threshold and selects either OFF or the existing nominal-strength connector
+conditioning at 2/3 for both streams. The threshold comes from bisection
+over active calibration trajectories with the adapter strength fixed.
+The fit, calibration, and evaluation seeds are disjoint. The selected
+threshold was `-0.12069271435029807`, with 9 of 16 calibration intervals
+firing for a target of 8 and a tolerance of one interval. The gate adds
+no optimizer updates or network layers to the saved RAW model. Use this
+procedure with a fitted probe and active calibration for each supported
+RAW slider and sampler.
+[Paper equations and budget calibration](https://arxiv.org/html/2611.18274v1#S3) ·
+[Pinned shared gate](https://github.com/HyperGAN/particle-sliders/blob/b1f780decc516808cfd3019d5e5b674457161f86/packages/particle-sliders-core/src/particle_sliders/adaptive_steering.py)
+
+On the two held-out cases, CFP fired on the last three of eight intervals.
+The matched constant used `0.606250007947286` on every interval. Its
+sigma-integrated dose equals CFP's because both sum strength times interval
+width on the same grid. Counts and physical dose are reported separately
+because the interval widths differ. Independent whole-video and stereo
+audio checks passed for OFF, CFP, and the matched constant on both seeds.
+
+| Seed | CFP minus OFF | Matched constant minus OFF | CFP minus matched constant |
+| --- | ---: | ---: | ---: |
+| 7 | −0.00018261 | +0.00069049 | −0.00087310 |
+| 2307 | +0.00046803 | −0.00059195 | +0.00105998 |
+| Equal-case mean | +0.00014271 | +0.00004927 | +0.00009344 |
+
+The small positive mean covers this two-case panel, with a loss on seed 7.
+The measured runtime used the historical `ltx25_native_video95` RAW packet
+and ParticleGAN 0.10.1. The gate and scheduled-render source used in the
+measurement match the released package's gate and scheduler source bytes.
+The current package admits its newer RAW cohort. Full native regeneration
+of the historical media requires the captured RAW3 runtime, model files,
+prompt inputs, and fitted probe. The public record provides the bracket,
+recorded gate projections and intensities for arithmetic replay, and the
+original checkpoint and source hashes for identification.
+[Two-case CFP evidence](docs/warm-sunset-raw3-cfp-two-case.json) ·
+[Pinned LTX gate](https://github.com/HyperGAN/ltx25-particle-sliders/blob/a35d0f54321016b04aa80f14a26a2da639438187/backends/ltx25-native/src/ps_ltx25_native/adaptive_render.py)
+
+From `backends/ltx25-native`, use the wheel named by
+`LTX25_STEERING_CORE_WHEEL` to replay the published decisions and scores
+on CPU.
+
+```python
+import json
+import os
+from math import fsum, isclose, ulp
+from pathlib import Path
+from statistics import fmean
+from sys import float_info
+
+from ps_ltx25_native.adaptive_render import gate_core
+
+record = json.loads(Path("docs/warm-sunset-raw3-cfp-two-case.json").read_text())
+core = gate_core(Path(os.environ["LTX25_STEERING_CORE_WHEEL"]))
+calibration = record["calibration"]
+rollouts = {row["threshold"]: row["fired"] for row in calibration["active_rollout_bracket"]}
+answer = core.calibrate_gate_budget(
+    lambda threshold: core.GateUsage(rollouts[threshold], calibration["eligible_intervals"]),
+    target_rate=calibration["target_firing_rate"],
+    bounds=tuple(rollouts)[:2],
+    tolerance=calibration["rate_tolerance"],
+    max_iterations=float_info.mant_dig,
+)
+assert answer.parameter == calibration["resolved_threshold"]
+assert answer.usage.fired == calibration["calibration_fired"]
+
+sigmas = record["actual_sigmas"]
+widths = [left - right for left, right in zip(sigmas[:-1], sigmas[1:], strict=True)]
+contrasts = []
+for case in record["matched_cases"]:
+    gate = core.ActivationGate("cfp", answer.parameter)
+    mask = [gate.step(score).fired for score in case["cfp_pre_edit_projections"]]
+    assert mask == case["cfp_firing_mask"]
+    dose = fsum(record["nominal_strength"] * width
+                for width, fired in zip(widths, mask, strict=True) if fired)
+    fixed = fsum(case["matched_constant_strength"] * width for width in widths)
+    assert dose == case["sigma_dose"]
+    assert isclose(fixed, dose, rel_tol=0.0, abs_tol=ulp(dose))
+    intensity = case["intensity"]
+    contrast = {
+        "adaptive_ON_minus_OFF": intensity["cfp"] - intensity["off"],
+        "constant_ON_minus_OFF": intensity["matched_constant"] - intensity["off"],
+        "adaptive_minus_matched_constant": intensity["cfp"] - intensity["matched_constant"],
+    }
+    assert contrast == case["contrasts"]
+    contrasts.append(contrast)
+assert {key: fmean(row[key] for row in contrasts) for key in contrasts[0]} == record["mean"]
+```
 
 ### Qualified fixed schedules
 
