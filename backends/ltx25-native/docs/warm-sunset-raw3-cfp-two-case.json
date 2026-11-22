@@ -1,0 +1,197 @@
+{
+  "schema": "ltx25-warm-sunset-raw3-cfp-two-case-v1",
+  "scope": "Measured historical RAW3 and frozen eight-step coupled native sampler. Archived scores and dose arithmetic are replayable from this record.",
+  "raw_sha256": "e86105f64beb173a376692c066434c25a27f32bed126f81329325cc2639989d4",
+  "raw_packet_backend": "ltx25_native_video95",
+  "archived_particlegan": "0.10.1",
+  "actual_checkpoint_updates": 3,
+  "new_optimizer_updates": 0,
+  "ema_decay": null,
+  "source": {
+    "paper": "https://arxiv.org/html/2611.18274v1#S3",
+    "ltx_native_gate_commit": "a35d0f54321016b04aa80f14a26a2da639438187",
+    "ltx_native_gate_source_sha256": "a7f0486e3bd324ea9482fabd477a8bda13a86e4ca10fabe78b07c94491a855c0",
+    "core_gate_commit": "b1f780decc516808cfd3019d5e5b674457161f86",
+    "core_gate_source_sha256": "5fc2a5256a935eca9cecc365d9ac62e5e94cdc375d2ab33c5dc26eb344241814",
+    "ltx_native_schedule_source_sha256": "bdc69ddef1ae54a4c78cf9ebf70eaa73f41e0fa7b0e99ae81b9ae2d2a574a463"
+  },
+  "geometry": {
+    "height": 512,
+    "width": 768,
+    "frames": 17,
+    "text_tokens": 128,
+    "fps": 24
+  },
+  "nominal_strength": 0.6666666666666666,
+  "actual_sigmas": [
+    1.0,
+    0.9937499761581421,
+    0.987500011920929,
+    0.981249988079071,
+    0.9750000238418579,
+    0.909375011920929,
+    0.7250000238418579,
+    0.421875,
+    0.0
+  ],
+  "calibration": {
+    "method": "cfp",
+    "fit_seeds": [
+      3652865810,
+      3772656597
+    ],
+    "fit_native_vectors": 32,
+    "probe_dimension": 256,
+    "sparse_dictionary_width": 512,
+    "top_k": 10,
+    "calibration_seeds": [
+      1311203355,
+      4264599243
+    ],
+    "target_firing_rate": 0.5,
+    "rate_tolerance": 0.0625,
+    "eligible_intervals": 16,
+    "active_rollout_bracket": [
+      {
+        "threshold": -5.119822025299073,
+        "fired": 0
+      },
+      {
+        "threshold": 0.040569521486759186,
+        "fired": 16
+      },
+      {
+        "threshold": -2.539626251906157,
+        "fired": 2
+      },
+      {
+        "threshold": -1.249528365209699,
+        "fired": 4
+      },
+      {
+        "threshold": -0.6044794218614699,
+        "fired": 5
+      },
+      {
+        "threshold": -0.28195495018735534,
+        "fired": 6
+      },
+      {
+        "threshold": -0.12069271435029807,
+        "fired": 9
+      }
+    ],
+    "resolved_threshold": -0.12069271435029807,
+    "calibration_fired": 9
+  },
+  "measure": "Equal-case mean finished-video Warm Sunset intensity ON minus OFF. Comparative contrast is CFP minus same-dose constant. Whole video and stereo audio integrity qualify each arm separately.",
+  "matched_cases": [
+    {
+      "seed": 7,
+      "cfp_pre_edit_projections": [
+        0.06780075281858444,
+        0.020376764237880707,
+        -0.024063725024461746,
+        -0.07100331783294678,
+        -0.11934967339038849,
+        -0.6427000164985657,
+        -2.1655759811401367,
+        -4.758946418762207
+      ],
+      "cfp_firing_mask": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true,
+        true
+      ],
+      "cfp_fired": 3,
+      "eligible_intervals": 8,
+      "sigma_dose": 0.606250007947286,
+      "matched_constant_strength": 0.606250007947286,
+      "intensity": {
+        "off": 0.0018117474522300234,
+        "cfp": 0.0016291360879523464,
+        "matched_constant": 0.002502240538934331
+      },
+      "whole_AV_integrity": {
+        "off": {
+          "audio": "pass",
+          "video": "pass"
+        },
+        "cfp": {
+          "video": "pass",
+          "audio": "pass"
+        },
+        "matched_constant": {
+          "video": "pass",
+          "audio": "pass"
+        }
+      },
+      "contrasts": {
+        "adaptive_ON_minus_OFF": -0.0001826113642776771,
+        "constant_ON_minus_OFF": 0.0006904930867043075,
+        "adaptive_minus_matched_constant": -0.0008731044509819846
+      }
+    },
+    {
+      "seed": 2307,
+      "cfp_pre_edit_projections": [
+        0.10576945543289185,
+        0.0597369410097599,
+        0.012379102408885956,
+        -0.034826382994651794,
+        -0.08143794536590576,
+        -0.5840368270874023,
+        -2.029445171356201,
+        -4.509190559387207
+      ],
+      "cfp_firing_mask": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true,
+        true
+      ],
+      "cfp_fired": 3,
+      "eligible_intervals": 8,
+      "sigma_dose": 0.606250007947286,
+      "matched_constant_strength": 0.606250007947286,
+      "intensity": {
+        "off": 0.003219320275747083,
+        "cfp": 0.0036873491919084504,
+        "matched_constant": 0.002627370856363564
+      },
+      "whole_AV_integrity": {
+        "off": {
+          "audio": "pass",
+          "video": "pass"
+        },
+        "cfp": {
+          "video": "pass",
+          "audio": "pass"
+        },
+        "matched_constant": {
+          "video": "pass",
+          "audio": "pass"
+        }
+      },
+      "contrasts": {
+        "adaptive_ON_minus_OFF": 0.00046802891616136736,
+        "constant_ON_minus_OFF": -0.0005919494193835193,
+        "adaptive_minus_matched_constant": 0.0010599783355448866
+      }
+    }
+  ],
+  "mean": {
+    "adaptive_ON_minus_OFF": 0.00014270877594184514,
+    "constant_ON_minus_OFF": 4.927183366039412e-05,
+    "adaptive_minus_matched_constant": 9.343694228145102e-05
+  }
+}
