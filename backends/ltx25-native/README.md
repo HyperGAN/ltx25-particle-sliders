@@ -134,3 +134,40 @@ earlier seed-19 attempt remains unresolved. These results apply to this RAW3
 slider and the tested eight-step sampler.
 [Two-case evidence](docs/warm-sunset-raw3-two-case-scheduled-strength.json) ·
 [Seed-7 evidence](docs/warm-sunset-raw3-seed7-scheduled-strength.json)
+
+### Replay the measured Warm Sunset schedule
+
+Run from the `backends/ltx25-native` directory with the captured Warm
+Sunset RAW3 session. The two-case evidence records the RAW checkpoint
+hash and the actual scheduler grid. To replay the early-heavy arm for
+seed 2307, supply `archived_prompt` from `request.prompt` in the original
+latent-phase receipt. The measured clip was produced by passing that
+latent boundary to the guarded original decoder.
+
+```python
+import json
+from pathlib import Path
+
+from ps_ltx25_native.scheduled_render import render
+
+evidence = json.loads(Path("docs/warm-sunset-raw3-two-case-scheduled-strength.json").read_text())
+case = evidence["heldout"]
+nominal = evidence["nominal_strength"]
+strengths = case["arms"]["early"]["effective_strengths"]
+step_gains = [strength / nominal for strength in strengths]
+geometry = session.manifest["specification"]["configuration"]["geometry"]
+if geometry != evidence["geometry"]:
+    raise ValueError("Use the measured Warm Sunset sampler geometry")
+
+result = render(session, prompt=archived_prompt, seed=case["seed"],
+                strength=nominal, step_gains=step_gains, output_type="latent")
+trace = result["strength_schedule"]
+if trace["sigmas"] != evidence["actual_sigmas"] or trace["effective_strengths"] != strengths:
+    raise RuntimeError("Replay left the measured Warm Sunset schedule")
+```
+
+The nominal strength is 2/3. The first six gains are 1.5, the seventh is
+1.2422680615086459, and the last is 0.5. Both modalities use the recorded
+strengths and the same Euler interval widths. The early and constant
+dose sums differ by one floating-point ULP on this grid.
+[Per-arm strengths and outcomes](docs/warm-sunset-raw3-two-case-scheduled-strength.json)
