@@ -139,13 +139,16 @@ RAW slider and sampler.
 [Pinned shared gate](https://github.com/HyperGAN/particle-sliders/blob/b1f780decc516808cfd3019d5e5b674457161f86/packages/particle-sliders-core/src/particle_sliders/adaptive_steering.py)
 
 On the two held-out cases, CFP fired on the last three of eight intervals.
-The matched constant used `0.606250007947286` on every interval. Its
-sigma-integrated dose equals CFP's because both sum strength times interval
-width on the same grid. Counts and physical dose are reported separately
-because the interval widths differ. Independent whole-video and stereo
-audio checks passed for OFF, CFP, and the matched constant on both seeds.
+The archived constant requested `0.606250007947286` on every interval.
+At the native FP32 connector multiply it resolved to
+`0.606249988079071`, one representable step below the nearest constant
+`0.6062500476837158`. The absolute difference in integrated coefficient
+was 3.79 × 10⁻⁸ on the shared audio and video grid. The table reports the
+original renders. The nearest FP32 control remains unmeasured.
+Independent whole-video and stereo audio checks passed for OFF, CFP, and
+the archived constant on both seeds. [Pinned connector multiplier](https://github.com/HyperGAN/ltx25-particle-sliders/blob/c99e0af0a873d7d2c751c446fe53a9fbdae193fb/backends/ltx25-native/src/ps_ltx25_native/adapter.py).
 
-| Seed | CFP minus OFF | Matched constant minus OFF | CFP minus matched constant |
+| Seed | CFP minus OFF | Archived constant minus OFF | CFP minus archived constant |
 | --- | ---: | ---: | ---: |
 | 7 | −0.00018261 | +0.00069049 | −0.00087310 |
 | 2307 | +0.00046803 | −0.00059195 | +0.00105998 |
@@ -218,11 +221,14 @@ assert {key: fmean(row[key] for row in contrasts) for key in contrasts[0]} == re
 
 The shared calibration picked a bias at 7 firings in 16 intervals, within
 one firing of the paper's 50% test budget. On two held-out Warm Sunset RAW3
-seeds, CLABS averaged +0.00004836 over slider OFF. Its dose-matched constant
-averaged +0.00009977 over OFF, a mean advantage of +0.00005141. CLABS led on
-seed 7, and the constant led on seed 2307. Each clip passed independent
-video and stereo integrity checks. The measured CFP result above remains
-the stronger adaptive comparison for this panel.
+seeds, CLABS averaged +0.00004836 over slider OFF. Its constant control
+averaged +0.00009977 over OFF, a mean advantage of +0.00005141. Both
+CLABS constants used the nearest representable FP32 scalar on the native
+grid. The largest absolute difference in integrated coefficient was
+1.82 × 10⁻⁸. CLABS led on seed 7, and the constant led on seed 2307.
+Each clip passed independent video and stereo integrity checks. The
+measured CFP result above remains the stronger adaptive comparison for
+this panel.
 [CLABS calibration, firing decisions, and per-case outcomes](docs/warm-sunset-raw3-clabs-two-case.json)
 
 ### Qualified fixed schedules
