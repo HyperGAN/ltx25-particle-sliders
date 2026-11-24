@@ -142,13 +142,18 @@ On the two held-out cases, CFP fired on the last three of eight intervals.
 The archived constant requested `0.606250007947286` on every interval.
 At the native FP32 connector multiply it resolved to
 `0.606249988079071`, one representable step below the nearest constant
-`0.6062500476837158`. The absolute difference in integrated coefficient
-was 3.79 × 10⁻⁸ on the shared audio and video grid. The table reports the
-original renders. The nearest FP32 control remains unmeasured.
-Independent whole-video and stereo audio checks passed for OFF, CFP, and
-the archived constant on both seeds. [Pinned connector multiplier](https://github.com/HyperGAN/ltx25-particle-sliders/blob/c99e0af0a873d7d2c751c446fe53a9fbdae193fb/backends/ltx25-native/src/ps_ltx25_native/adapter.py).
+`0.6062500476837158`. The archived integrated coefficient was lower than
+CFP by 3.79 × 10⁻⁸ on the shared audio and video grid. The nearest value
+has a signed residual of +2.17 × 10⁻⁸ per stream.
 
-| Seed | CFP minus OFF | Archived constant minus OFF | CFP minus archived constant |
+The follow-up rendered the nearest constant on both seeds with the same
+initial audio and video latents and all eight native intervals. Decoding
+produced the same MP4 bytes as the corresponding archived constants on
+both seeds. Each exact media match retains its original strength score and
+passing independent whole-video and stereo audio checks. The table applies
+to both sets of constants. [Pinned connector multiplier](https://github.com/HyperGAN/ltx25-particle-sliders/blob/c99e0af0a873d7d2c751c446fe53a9fbdae193fb/backends/ltx25-native/src/ps_ltx25_native/adapter.py).
+
+| Seed | CFP minus OFF | Constant minus OFF | CFP minus constant |
 | --- | ---: | ---: | ---: |
 | 7 | −0.00018261 | +0.00069049 | −0.00087310 |
 | 2307 | +0.00046803 | −0.00059195 | +0.00105998 |
